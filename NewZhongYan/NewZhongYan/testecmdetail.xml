@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <head>
+        <title><![CDATA[卢瑞刚到吴忠卷烟厂调研测试]]></title>
+        <author uid="czadmin">门户管理员</author>
+        <time>2014-02-14 10:08</time>
+    </head>
+    <body>
+        <content id="221" type="image" name="22222228.jpg" description="null">http://wz.hngytobacco.com/ecmapp/tecm/content/webdata/Mon_1402/images/14_1392343626219.jpg</content>
+        <content id="part" type="text/html"><![CDATA[卢瑞刚到吴忠卷烟厂调研]]></content>
+    </body>
+    <attachment>
+        <content id="7281" type="application/doc" name="NTKO OFFICE文档控件技术白皮书.doc">http://wz.hngytobacco.com/ecmapp/tecm/content/webdata/Mon_1402/attachments/cmsUploadFile/14_1392343688483.doc</content>
+    </attachment>
+    <inscribe>
+        <content id="signorg" type="text/plain">测试组</content>
+        <content id="signtime" type="text/plain">2014年02月14日</content>
+    </inscribe>
+    <addition>
+        <element id="receipt" name="回执" type="mark">1</element>
+    </addition>
+</root>

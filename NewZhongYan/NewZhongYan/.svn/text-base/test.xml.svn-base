@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <flowinstanceid>AAATest_OA</flowinstanceid>
+    <step>部门负责人会签</step>
+    <returncode>OK</returncode>
+    <bodies>
+        <columns name="正文">
+            <column type="application/msword" name="湖南中烟ESB平台基础建设-统一短信服务接口规范V1.2.doc" id="7e835f0c-13bcac06bd2-59c189771a28e0ca6f7fd4ca01dd46c7">湖南中烟ESB平台基础建设-统一短信服务接口规范V1.2.doc</column>
+        </columns>
+        <columns name="公文要素" id="info">
+            <column type="text/plain" name="意见" rw="w0" extend="phrase" id="opinion"/>
+            <column type="text/plain" rw="r0"  id="opinion">湖南中烟ESB平台基础建设-统一短信服务接口规范V1.2.doc</column>
+            <column type="text/plain" name="意见" rw="r0"  id="opinion">湖南中烟ESB平台基础建设-统一短信服务接口规范V1.2.doc</column>
+            <column name="办理人" type="text/plain" rw="w0" extend="signature" id="sign"/>
+            <column name="办理人" type="image/png" rw="w0" extend="signature" id="sign"/>
+            <column name="办理人" type="image/png" rw="w0" id="sign" extend="signature">R0lGODlhRgAyAPcAANLb5NDZ4gUCAwoJCg8PEOPk7M3R6sfL49DU69HW6tnd79Ta7dPZ7M7V6NDW 58/V5crS5c/X6s3V6MzT5dPZ6NLY59Xb6s7W6M3V587W58jO3NHX5c/V48rQ3dzi8NPY49DV4NTZ 5MfQ483W6MrS4szT4dLY5M3T39rg7M3W5tTa5dbc583W5dHZ5s3V4s7V4dHX4crQ2srV5svU4dHa 587X5M3W493m89Pb587W4s3V4dff60RGSdHW3c7Z5tPd6c3S2NDe7snT3tLb5dDZ487V3dbd5dTd 5tPc5dHa487X4Nbf6MvT2+fu9SssLdzd3tTe59Pd5tHb5M/Z4s3X4MPM1NLb49DZ4c/Y4M7X383W 3szV3dni6srb6s/a49zj6dPa4Nzi59nl7sbQ2MzW3lFVWNbg6M/Y39bf5tXe5dTd5F9jZs/X3cnb 58jT29Pe5tHc5M3Y4Nbh6cjS2dLc49Hb4tDa4czW3cvV3MrU297o79bg59jh59bf5aetsdXc4cja 5dHZ3s/a4Nrl69fi6NPd483X3ba/xNji6NTe5N3m69rj6NLb4M7d5SQmJ8HJzZacnzI0NX+DhUJE Rdnf4kdJSt7k51JUVcrb48/a39Xg5dDZ3cvU2Nfg5Kyztr3Ex9Tb3sbX3c3d49be4c/f5MrZ3tLh 5omPkZ2jpU5RUl1gYcvc4dLd4MbQ0+z3+ktPUHl9fpCUlc7c31ZbXNnj5c3W2Mbb36OpqtLg4rK6 u9ri49HZ2s/b3OHr7Mva2xgaGjo+Ph8hIdvn59fj49Xh4dPf39Hd3ScpKRMUFM/Z2VldXcrT05KY mC4wMNbe3tPb22xwcDU3NxscHHZ6ej0/Pzk7Ozc5OT9BQSYnJ9Td3MfPzrrBwNHd24SKiWhsa3F1 dNLW1VVYV2RpZ9fi3RUXFiIkI0tNTHyBfs/Z0dTg1pifmRESEUVHRV1iXK2yrGFjYFFSUE5PTRAQ DxgYFwQAAAMAAAUBAQYDAwYEBAcFBQgGBkhHRw4ODgwMDAgICP///yH5BAEAAP8ALAAAAABGADIA AAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo0B7HkMi7BdMpEmB/QTSOymyXyWB weqtY8lx3at/1pA5oTmQAEiL0n7pQ8ZSwMBj0gQapegEH1GW/MqhxDZwpcR59o7128nyqbl7A/k1 JBdMWjBk9OpFmyaJn1WTSQU2e4rvoaN/XAWqi0Tvrce0BCfpOzXvorV6+QZQ1Fdu5sGgAhUPdMTP 3MV85urlhUjvnbh69Rb2mzRQGoFrFgdAexd6Ij1280oulPrP3DGBx5D9mrgu3i1xfiEKkOfwbrWn A8FGJADv1i1z9PKR0xc84boB1RMSWEqwHLmI5LxN/zPnpB49J/Hk7WaIr1qk9Q1bF4z7MN++S+YF 1mtGlSG/aAKVAx9D380XUT9pyVZbdgYho+A/BVLU30PYbfZPM/4sREBKBNkzoUG3KSSPOBDpI59A r/AjjT4K5WMQaDopB9M/BCy0zjn2lPOhdS4WRA8+PGR4kD53JQTPW9JgUw9yB7WWjzjKyEiRlAL9 wl1CPc6o4UDyeNNMhBMFQ1tVDvklWUI/fVRPkRWdKA2DBgnZk0In5nfRL6ip9FA/js2J0DyzCIQM P9XA+VBr5Vzp35n/6GMhQfTMww+H/xj6UGblMDkWaPfUM6ZDJ1YkzTHdXMIoS6FO5ARX8rBJU6oR OUlR4DVy8gQrRH3eahI2hVEUDIn/ZMkTmRVFgs2Aw35k0afJEtvsRpY+G1G00u5ZrUYPXiuqthnV yu1Eun7bULbiRkRuuQ4hK1BAADs=</column>
+             <column name="办理人" type="image/png" rw="w0" id="sign">R0lGODlhRgAyAPcAANLb5NDZ4gUCAwoJCg8PEOPk7M3R6sfL49DU69HW6tnd79Ta7dPZ7M7V6NDW 58/V5crS5c/X6s3V6MzT5dPZ6NLY59Xb6s7W6M3V587W58jO3NHX5c/V48rQ3dzi8NPY49DV4NTZ 5MfQ483W6MrS4szT4dLY5M3T39rg7M3W5tTa5dbc583W5dHZ5s3V4s7V4dHX4crQ2srV5svU4dHa 587X5M3W493m89Pb587W4s3V4dff60RGSdHW3c7Z5tPd6c3S2NDe7snT3tLb5dDZ487V3dbd5dTd 5tPc5dHa487X4Nbf6MvT2+fu9SssLdzd3tTe59Pd5tHb5M/Z4s3X4MPM1NLb49DZ4c/Y4M7X383W 3szV3dni6srb6s/a49zj6dPa4Nzi59nl7sbQ2MzW3lFVWNbg6M/Y39bf5tXe5dTd5F9jZs/X3cnb 58jT29Pe5tHc5M3Y4Nbh6cjS2dLc49Hb4tDa4czW3cvV3MrU297o79bg59jh59bf5aetsdXc4cja 5dHZ3s/a4Nrl69fi6NPd483X3ba/xNji6NTe5N3m69rj6NLb4M7d5SQmJ8HJzZacnzI0NX+DhUJE Rdnf4kdJSt7k51JUVcrb48/a39Xg5dDZ3cvU2Nfg5Kyztr3Ex9Tb3sbX3c3d49be4c/f5MrZ3tLh 5omPkZ2jpU5RUl1gYcvc4dLd4MbQ0+z3+ktPUHl9fpCUlc7c31ZbXNnj5c3W2Mbb36OpqtLg4rK6 u9ri49HZ2s/b3OHr7Mva2xgaGjo+Ph8hIdvn59fj49Xh4dPf39Hd3ScpKRMUFM/Z2VldXcrT05KY mC4wMNbe3tPb22xwcDU3NxscHHZ6ej0/Pzk7Ozc5OT9BQSYnJ9Td3MfPzrrBwNHd24SKiWhsa3F1 dNLW1VVYV2RpZ9fi3RUXFiIkI0tNTHyBfs/Z0dTg1pifmRESEUVHRV1iXK2yrGFjYFFSUE5PTRAQ DxgYFwQAAAMAAAUBAQYDAwYEBAcFBQgGBkhHRw4ODgwMDAgICP///yH5BAEAAP8ALAAAAABGADIA AAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo0B7HkMi7BdMpEmB/QTSOymyXyWB weqtY8lx3at/1pA5oTmQAEiL0n7pQ8ZSwMBj0gQapegEH1GW/MqhxDZwpcR59o7128nyqbl7A/k1 JBdMWjBk9OpFmyaJn1WTSQU2e4rvoaN/XAWqi0Tvrce0BCfpOzXvorV6+QZQ1Fdu5sGgAhUPdMTP 3MV85urlhUjvnbh69Rb2mzRQGoFrFgdAexd6Ij1280oulPrP3DGBx5D9mrgu3i1xfiEKkOfwbrWn A8FGJADv1i1z9PKR0xc84boB1RMSWEqwHLmI5LxN/zPnpB49J/Hk7WaIr1qk9Q1bF4z7MN++S+YF 1mtGlSG/aAKVAx9D380XUT9pyVZbdgYho+A/BVLU30PYbfZPM/4sREBKBNkzoUG3KSSPOBDpI59A r/AjjT4K5WMQaDopB9M/BCy0zjn2lPOhdS4WRA8+PGR4kD53JQTPW9JgUw9yB7WWjzjKyEiRlAL9 wl1CPc6o4UDyeNNMhBMFQ1tVDvklWUI/fVRPkRWdKA2DBgnZk0In5nfRL6ip9FA/js2J0DyzCIQM P9XA+VBr5Vzp35n/6GMhQfTMww+H/xj6UGblMDkWaPfUM6ZDJ1YkzTHdXMIoS6FO5ARX8rBJU6oR OUlR4DVy8gQrRH3eahI2hVEUDIn/ZMkTmRVFgs2Aw35k0afJEtvsRpY+G1G00u5ZrUYPXiuqthnV yu1Eun7bULbiRkRuuQ4hK1BAADs=</column>
+        <column name="办理人" type="image/png" rw="w0"/>
+    </columns>
+        <columns name="签发" id="qf">
+            <column type="mixed">
+                <element type="text/plain" name="意见" rw="w0" extend="phrase" id="opinion"/>
+                <element name="办理人" type="text/plain" rw="w0" extend="signature" id="sign"/>
+                <element type="text/plain" rw="r0"  id="opinion">湖南中烟ESB平台基础建设-统一短信服务接口规范V1.2.doc</element>
+                <element type="text/plain" name="意见" rw="r0"  id="opinion">湖南中烟ESB平台基础建设-统一短信服务接口规范V1.2.doc</element>
+            </column>
+            <column type="mixed" id="AAA">
+                <element type="text/plain" name="意见" rw="w0" extend="phrase" id="opinion2"/>
+                <element type="text/plain" name="序号" id="OrderIndex" extend="columndetail">1</element>
+                <element name="办理人" type="text/plain" rw="w0" extend="signature" id="sign2"/>
+                <element name="办理人" type="image/png" rw="w0" id="sign" extend="signature">R0lGODlhRgAyAPcAANLb5NDZ4gUCAwoJCg8PEOPk7M3R6sfL49DU69HW6tnd79Ta7dPZ7M7V6NDW 58/V5crS5c/X6s3V6MzT5dPZ6NLY59Xb6s7W6M3V587W58jO3NHX5c/V48rQ3dzi8NPY49DV4NTZ 5MfQ483W6MrS4szT4dLY5M3T39rg7M3W5tTa5dbc583W5dHZ5s3V4s7V4dHX4crQ2srV5svU4dHa 587X5M3W493m89Pb587W4s3V4dff60RGSdHW3c7Z5tPd6c3S2NDe7snT3tLb5dDZ487V3dbd5dTd 5tPc5dHa487X4Nbf6MvT2+fu9SssLdzd3tTe59Pd5tHb5M/Z4s3X4MPM1NLb49DZ4c/Y4M7X383W 3szV3dni6srb6s/a49zj6dPa4Nzi59nl7sbQ2MzW3lFVWNbg6M/Y39bf5tXe5dTd5F9jZs/X3cnb 58jT29Pe5tHc5M3Y4Nbh6cjS2dLc49Hb4tDa4czW3cvV3MrU297o79bg59jh59bf5aetsdXc4cja 5dHZ3s/a4Nrl69fi6NPd483X3ba/xNji6NTe5N3m69rj6NLb4M7d5SQmJ8HJzZacnzI0NX+DhUJE Rdnf4kdJSt7k51JUVcrb48/a39Xg5dDZ3cvU2Nfg5Kyztr3Ex9Tb3sbX3c3d49be4c/f5MrZ3tLh 5omPkZ2jpU5RUl1gYcvc4dLd4MbQ0+z3+ktPUHl9fpCUlc7c31ZbXNnj5c3W2Mbb36OpqtLg4rK6 u9ri49HZ2s/b3OHr7Mva2xgaGjo+Ph8hIdvn59fj49Xh4dPf39Hd3ScpKRMUFM/Z2VldXcrT05KY mC4wMNbe3tPb22xwcDU3NxscHHZ6ej0/Pzk7Ozc5OT9BQSYnJ9Td3MfPzrrBwNHd24SKiWhsa3F1 dNLW1VVYV2RpZ9fi3RUXFiIkI0tNTHyBfs/Z0dTg1pifmRESEUVHRV1iXK2yrGFjYFFSUE5PTRAQ DxgYFwQAAAMAAAUBAQYDAwYEBAcFBQgGBkhHRw4ODgwMDAgICP///yH5BAEAAP8ALAAAAABGADIA AAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo0B7HkMi7BdMpEmB/QTSOymyXyWB weqtY8lx3at/1pA5oTmQAEiL0n7pQ8ZSwMBj0gQapegEH1GW/MqhxDZwpcR59o7128nyqbl7A/k1 JBdMWjBk9OpFmyaJn1WTSQU2e4rvoaN/XAWqi0Tvrce0BCfpOzXvorV6+QZQ1Fdu5sGgAhUPdMTP 3MV85urlhUjvnbh69Rb2mzRQGoFrFgdAexd6Ij1280oulPrP3DGBx5D9mrgu3i1xfiEKkOfwbrWn A8FGJADv1i1z9PKR0xc84boB1RMSWEqwHLmI5LxN/zPnpB49J/Hk7WaIr1qk9Q1bF4z7MN++S+YF 1mtGlSG/aAKVAx9D380XUT9pyVZbdgYho+A/BVLU30PYbfZPM/4sREBKBNkzoUG3KSSPOBDpI59A r/AjjT4K5WMQaDopB9M/BCy0zjn2lPOhdS4WRA8+PGR4kD53JQTPW9JgUw9yB7WWjzjKyEiRlAL9 wl1CPc6o4UDyeNNMhBMFQ1tVDvklWUI/fVRPkRWdKA2DBgnZk0In5nfRL6ip9FA/js2J0DyzCIQM P9XA+VBr5Vzp35n/6GMhQfTMww+H/xj6UGblMDkWaPfUM6ZDJ1YkzTHdXMIoS6FO5ARX8rBJU6oR OUlR4DVy8gQrRH3eahI2hVEUDIn/ZMkTmRVFgs2Aw35k0afJEtvsRpY+G1G00u5ZrUYPXiuqthnV yu1Eun7bULbiRkRuuQ4hK1BAADs=</element>
+                <element name="办理人" type="image/png" rw="w0" id="sign">R0lGODlhRgAyAPcAANLb5NDZ4gUCAwoJCg8PEOPk7M3R6sfL49DU69HW6tnd79Ta7dPZ7M7V6NDW 58/V5crS5c/X6s3V6MzT5dPZ6NLY59Xb6s7W6M3V587W58jO3NHX5c/V48rQ3dzi8NPY49DV4NTZ 5MfQ483W6MrS4szT4dLY5M3T39rg7M3W5tTa5dbc583W5dHZ5s3V4s7V4dHX4crQ2srV5svU4dHa 587X5M3W493m89Pb587W4s3V4dff60RGSdHW3c7Z5tPd6c3S2NDe7snT3tLb5dDZ487V3dbd5dTd 5tPc5dHa487X4Nbf6MvT2+fu9SssLdzd3tTe59Pd5tHb5M/Z4s3X4MPM1NLb49DZ4c/Y4M7X383W 3szV3dni6srb6s/a49zj6dPa4Nzi59nl7sbQ2MzW3lFVWNbg6M/Y39bf5tXe5dTd5F9jZs/X3cnb 58jT29Pe5tHc5M3Y4Nbh6cjS2dLc49Hb4tDa4czW3cvV3MrU297o79bg59jh59bf5aetsdXc4cja 5dHZ3s/a4Nrl69fi6NPd483X3ba/xNji6NTe5N3m69rj6NLb4M7d5SQmJ8HJzZacnzI0NX+DhUJE Rdnf4kdJSt7k51JUVcrb48/a39Xg5dDZ3cvU2Nfg5Kyztr3Ex9Tb3sbX3c3d49be4c/f5MrZ3tLh 5omPkZ2jpU5RUl1gYcvc4dLd4MbQ0+z3+ktPUHl9fpCUlc7c31ZbXNnj5c3W2Mbb36OpqtLg4rK6 u9ri49HZ2s/b3OHr7Mva2xgaGjo+Ph8hIdvn59fj49Xh4dPf39Hd3ScpKRMUFM/Z2VldXcrT05KY mC4wMNbe3tPb22xwcDU3NxscHHZ6ej0/Pzk7Ozc5OT9BQSYnJ9Td3MfPzrrBwNHd24SKiWhsa3F1 dNLW1VVYV2RpZ9fi3RUXFiIkI0tNTHyBfs/Z0dTg1pifmRESEUVHRV1iXK2yrGFjYFFSUE5PTRAQ DxgYFwQAAAMAAAUBAQYDAwYEBAcFBQgGBkhHRw4ODgwMDAgICP///yH5BAEAAP8ALAAAAABGADIA AAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo0B7HkMi7BdMpEmB/QTSOymyXyWB weqtY8lx3at/1pA5oTmQAEiL0n7pQ8ZSwMBj0gQapegEH1GW/MqhxDZwpcR59o7128nyqbl7A/k1 JBdMWjBk9OpFmyaJn1WTSQU2e4rvoaN/XAWqi0Tvrce0BCfpOzXvorV6+QZQ1Fdu5sGgAhUPdMTP 3MV85urlhUjvnbh69Rb2mzRQGoFrFgdAexd6Ij1280oulPrP3DGBx5D9mrgu3i1xfiEKkOfwbrWn A8FGJADv1i1z9PKR0xc84boB1RMSWEqwHLmI5LxN/zPnpB49J/Hk7WaIr1qk9Q1bF4z7MN++S+YF 1mtGlSG/aAKVAx9D380XUT9pyVZbdgYho+A/BVLU30PYbfZPM/4sREBKBNkzoUG3KSSPOBDpI59A r/AjjT4K5WMQaDopB9M/BCy0zjn2lPOhdS4WRA8+PGR4kD53JQTPW9JgUw9yB7WWjzjKyEiRlAL9 wl1CPc6o4UDyeNNMhBMFQ1tVDvklWUI/fVRPkRWdKA2DBgnZk0In5nfRL6ip9FA/js2J0DyzCIQM P9XA+VBr5Vzp35n/6GMhQfTMww+H/xj6UGblMDkWaPfUM6ZDJ1YkzTHdXMIoS6FO5ARX8rBJU6oR OUlR4DVy8gQrRH3eahI2hVEUDIn/ZMkTmRVFgs2Aw35k0afJEtvsRpY+G1G00u5ZrUYPXiuqthnV yu1Eun7bULbiRkRuuQ4hK1BAADs=</element>
+                <element name="办理人" type="image/png" rw="w0" extend="signature"  id="aaaqf"/>
+                <element name="办理人" type="image/png" rw="w0"/>
+            </column>
+            <column type="mixed">
+                <element type="text/plain" name="意见">cccc</element>
+                <element name="办理人" type="image/png">R0lGODlhVgAyAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAABWADIAAALmlI+py+0Po5y02ouz 3rz7D4biSJbmiaaqBLTuC6wf3LK1bNGXS92nrvFBeKbXLNZDiowgIWvpPOaYOyIpahNgI9ZRt7Ll Kq9f8HhShm7SDnbIbTs/wk0qRsiGe4z6IXXctwYUyFDmQydIo4i4wIN3I9ehWAiDxveoxThl18jZ dgiaCUVY+YRAVKO5mUTY6Ygz19oAGQlrkFrbc5trWxokajvruRpMOcxa3JbJy5UsJujsF6RaTK1w HH1gfRqzDet9C5wtvLM7Tp4BjgOOpC7jTXs+WyUunwDfzWxvVr+f6A8woMANBQAAOw==</element>
+                <element type="text/plain" name="办理时间">2012-10-15 18:56:48</element>
+            </column>
+            <column type="mixed">
+                <element type="text/plain" name="意见">同意qianfa</element>
+                <element name="办理人" type="image/png">R0lGODlhPQAyAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAA9ADIAAAL/lI+py+0Po5y02ouz 3ht4r30AJ4jmiJncWYLXd7iWiNAvbMiUHesTXkNVfMAIqBgkISFHX08p/C2fDF7VacRSFbAo1ysF J3TNkbaVmdbGZpS2fF5EncSWNcja9cBE+Pck9iDUlIR3l9MVd7VH5lUmqNggg0TpFriXYsnHh4gm lycBuCnZJga4w+J4CbqIysh2pRI7M1j5+Xh781rIZjmru3sIRBdJWpvoiQd5yTQnasqsJvVkgxXd J+tAZrcV9izd2ZzJDGlEkml+Tvs1pr4Ou+buyh4jP88Vb5/VWqK//0vOX7JPOQSWI1XQIEJj/RT+ ihXQHzhuDgkuq2jxIEZeBhuHdKRQAAA7</element>
+                <element type="text/plain" name="办理时间">2012-10-15 18:51:48</element>
+            </column>
+        </columns>
+        <columns name="领导会签" id="ldhq">
+            <column type="mixed">
+                <element type="text/plain" name="意见">cccc</element>
+                <element name="办理人" type="image/png">R0lGODlhVgAyAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAABWADIAAALmlI+py+0Po5y02ouz 3rz7D4biSJbmiaaqBLTuC6wf3LK1bNGXS92nrvFBeKbXLNZDiowgIWvpPOaYOyIpahNgI9ZRt7Ll Kq9f8HhShm7SDnbIbTs/wk0qRsiGe4z6IXXctwYUyFDmQydIo4i4wIN3I9ehWAiDxveoxThl18jZ dgiaCUVY+YRAVKO5mUTY6Ygz19oAGQlrkFrbc5trWxokajvruRpMOcxa3JbJy5UsJujsF6RaTK1w HH1gfRqzDet9C5wtvLM7Tp4BjgOOpC7jTXs+WyUunwDfzWxvVr+f6A8woMANBQAAOw==</element>
+                <element type="text/plain" name="办理时间">2012-10-15 18:56:48</element>
+            </column>
+            <column type="mixed">
+                <element type="text/plain" name="意见">同意huiqian</element>
+                <element name="办理人" type="image/png">R0lGODlhPQAyAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAAA9ADIAAAL/lI+py+0Po5y02ouz 3ht4r30AJ4jmiJncWYLXd7iWiNAvbMiUHesTXkNVfMAIqBgkISFHX08p/C2fDF7VacRSFbAo1ysF J3TNkbaVmdbGZpS2fF5EncSWNcja9cBE+Pck9iDUlIR3l9MVd7VH5lUmqNggg0TpFriXYsnHh4gm lycBuCnZJga4w+J4CbqIysh2pRI7M1j5+Xh781rIZjmru3sIRBdJWpvoiQd5yTQnasqsJvVkgxXd J+tAZrcV9izd2ZzJDGlEkml+Tvs1pr4Ou+buyh4jP88Vb5/VWqK//0vOX7JPOQSWI1XQIEJj/RT+ ihXQHzhuDgkuq2jxIEZeBhuHdKRQAAA7</element>
+                <element type="text/plain" name="办理时间">2012-10-15 18:51:48</element>
+            </column>
+        </columns>
+        <columns name="部门负责人审核" id="bmsh">
+            <column type="mixed">
+                <element type="text/plain" name="意见">同意。。。</element>
+                <element name="办理人" type="image/png" encode="base64">R0lGODlhYQAyAOYAAP////39/fz8/Pr6+vj4+PX19fHx8e7u7urq6unp6eXl5eLi4t/f393d3dvb 29bW1tPT08/Pz8rKysfHx8TExL+/v7y8vLe3t7S0tK2traqqqqOjo56enp2dnZubm5qampKSko2N jYiIiIaGhoKCgn5+fnt7e3d3d3R0dGxsbGlpaWZmZmJiYl9fX1paWlZWVlBQUE9PT0tLS0VFRURE REBAQDw8PDc3NzY2NjMzMzExMS4uLisrKyMjIyAgIB8fHxwcHBkZGRcXFxYWFhQUFBMTExERERAQ EA4ODgwMDAsLCwoKCgkJCQcHBwQEBAMDAwICAgEBAQAAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5 BAEAAFMALAAAAABhADIAAAf/gFOCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp+goaKjpKWm p6ipqqusra6vsJ1BUkGWtbGVUrpSuUK4lFJCukeLwoe6v4NGjrtSJbuJSLyGyLu3rc2KTs1SSbpK yIhAg1Lb3MOrwtxI2lND3IJA01M9ulDUuj+6JOGp0v39FP3rJ43cN2pNBEmRNw8UknHUrilsmOic IHBTsi2CdshHwFzTPhYSie+GNUHeNCoCR3EiR0zwKrbEp5HjTEPqCMXcpKsHI5I6LdYkl2jJPJWd gI68GdRikZBSoEghkqgJ1FFKgy46wktlP3OKwmXNJIXYT6YTXV51xAQgrrFiYrvucsIM3lhTcFtG uZuxmq5xfEnlBdk0MKknaPsCa+kxWcaNTCYZfpV4EtfKvzBHiup4Y2dVtD6jmiz6EunShFEL1qza 0unWm1nDlix7dmzboWrjflRut6ckvoMLH068+KtAADs=</element>
+                <element type="text/plain" name="办理时间">2012-10-15 16:26:03</element>
+            </column>
+        </columns>
+        <columns name="部门会签" id="bmhq">
+            <column type="mixed" rw="r">
+                <element type="text/plain" name="意见" rw="w1" extend="phrase" id="opinion">搞定。</element>
+                <element name="办理人" type="image/png" rw="w1" extend="signature" id="sign">了 ，  </element>
+                <element type="text/plain" name="办理时间">2012-10-16 08:58:16</element>
+            </column>
+            <column type="mixed" rw="r">
+                <element type="text/plain" name="意见">cccc</element>
+                <element name="办理人" type="image/png">R0lGODlhVgAyAJEAAAAAAP///////wAAACH5BAEAAAIALAAAAABWADIAAALmlI+py+0Po5y02ouz 3rz7D4biSJbmiaaqBLTuC6wf3LK1bNGXS92nrvFBeKbXLNZDiowgIWvpPOaYOyIpahNgI9ZRt7Ll Kq9f8HhShm7SDnbIbTs/wk0qRsiGe4z6IXXctwYUyFDmQydIo4i4wIN3I9ehWAiDxveoxThl18jZ dgiaCUVY+YRAVKO5mUTY6Ygz19oAGQlrkFrbc5trWxokajvruRpMOcxa3JbJy5UsJujsF6RaTK1w HH1gfRqzDet9C5wtvLM7Tp4BjgOOpC7jTXs+WyUunwDfzWxvVr+f6A8woMANBQAAOw==</element>
+                <element type="text/plain" name="办理时间">2012-10-15 18:56:48</element>
+            </column>
+            <column type="mixed" rw="r">
+                <element type="text/plain" name="意见">同意签发</element>
+                <element name="办理人" type="image/png">R0lGODlhRgAyAPcAANLb5NDZ4gUCAwoJCg8PEOPk7M3R6sfL49DU69HW6tnd79Ta7dPZ7M7V6NDW 58/V5crS5c/X6s3V6MzT5dPZ6NLY59Xb6s7W6M3V587W58jO3NHX5c/V48rQ3dzi8NPY49DV4NTZ 5MfQ483W6MrS4szT4dLY5M3T39rg7M3W5tTa5dbc583W5dHZ5s3V4s7V4dHX4crQ2srV5svU4dHa 587X5M3W493m89Pb587W4s3V4dff60RGSdHW3c7Z5tPd6c3S2NDe7snT3tLb5dDZ487V3dbd5dTd 5tPc5dHa487X4Nbf6MvT2+fu9SssLdzd3tTe59Pd5tHb5M/Z4s3X4MPM1NLb49DZ4c/Y4M7X383W 3szV3dni6srb6s/a49zj6dPa4Nzi59nl7sbQ2MzW3lFVWNbg6M/Y39bf5tXe5dTd5F9jZs/X3cnb 58jT29Pe5tHc5M3Y4Nbh6cjS2dLc49Hb4tDa4czW3cvV3MrU297o79bg59jh59bf5aetsdXc4cja 5dHZ3s/a4Nrl69fi6NPd483X3ba/xNji6NTe5N3m69rj6NLb4M7d5SQmJ8HJzZacnzI0NX+DhUJE Rdnf4kdJSt7k51JUVcrb48/a39Xg5dDZ3cvU2Nfg5Kyztr3Ex9Tb3sbX3c3d49be4c/f5MrZ3tLh 5omPkZ2jpU5RUl1gYcvc4dLd4MbQ0+z3+ktPUHl9fpCUlc7c31ZbXNnj5c3W2Mbb36OpqtLg4rK6 u9ri49HZ2s/b3OHr7Mva2xgaGjo+Ph8hIdvn59fj49Xh4dPf39Hd3ScpKRMUFM/Z2VldXcrT05KY mC4wMNbe3tPb22xwcDU3NxscHHZ6ej0/Pzk7Ozc5OT9BQSYnJ9Td3MfPzrrBwNHd24SKiWhsa3F1 dNLW1VVYV2RpZ9fi3RUXFiIkI0tNTHyBfs/Z0dTg1pifmRESEUVHRV1iXK2yrGFjYFFSUE5PTRAQ DxgYFwQAAAMAAAUBAQYDAwYEBAcFBQgGBkhHRw4ODgwMDAgICP///yH5BAEAAP8ALAAAAABGADIA AAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo0B7HkMi7BdMpEmB/QTSOymyXyWB weqtY8lx3at/1pA5oTmQAEiL0n7pQ8ZSwMBj0gQapegEH1GW/MqhxDZwpcR59o7128nyqbl7A/k1 JBdMWjBk9OpFmyaJn1WTSQU2e4rvoaN/XAWqi0Tvrce0BCfpOzXvorV6+QZQ1Fdu5sGgAhUPdMTP 3MV85urlhUjvnbh69Rb2mzRQGoFrFgdAexd6Ij1280oulPrP3DGBx5D9mrgu3i1xfiEKkOfwbrWn A8FGJADv1i1z9PKR0xc84boB1RMSWEqwHLmI5LxN/zPnpB49J/Hk7WaIr1qk9Q1bF4z7MN++S+YF 1mtGlSG/aAKVAx9D380XUT9pyVZbdgYho+A/BVLU30PYbfZPM/4sREBKBNkzoUG3KSSPOBDpI59A r/AjjT4K5WMQaDopB9M/BCy0zjn2lPOhdS4WRA8+PGR4kD53JQTPW9JgUw9yB7WWjzjKyEiRlAL9 wl1CPc6o4UDyeNNMhBMFQ1tVDvklWUI/fVRPkRWdKA2DBgnZk0In5nfRL6ip9FA/js2J0DyzCIQM P9XA+VBr5Vzp35n/6GMhQfTMww+H/xj6UGblMDkWaPfUM6ZDJ1YkzTHdXMIoS6FO5ARX8rBJU6oR OUlR4DVy8gQrRH3eahI2hVEUDIn/ZMkTmRVFgs2Aw35k0afJEtvsRpY+G1G00u5ZrUYPXiuqthnV yu1Eun7bULbiRkRuuQ4hK1BAADs=</element>
+                <element type="text/plain" name="办理时间">2012-10-15 16:56:45</element>
+            </column>
+            <column type="mixed" rw="r">
+                <element type="text/plain" name="意见">同意</element>
+                <element name="办理人" type="text/plain">吴德</element>
+                <element type="text/plain" name="办理时间">2012-10-15 16:53:26</element>
+            </column>
+            <column type="mixed" rw="r">
+                <element type="text/plain" name="意见">部门会签</element>
+                <element name="办理人" type="image/png">R0lGODlhRgAyAPcAANLb5NDZ4gUCAwoJCg8PEOPk7M3R6sfL49DU69HW6tnd79Ta7dPZ7M7V6NDW 58/V5crS5c/X6s3V6MzT5dPZ6NLY59Xb6s7W6M3V587W58jO3NHX5c/V48rQ3dzi8NPY49DV4NTZ 5MfQ483W6MrS4szT4dLY5M3T39rg7M3W5tTa5dbc583W5dHZ5s3V4s7V4dHX4crQ2srV5svU4dHa 587X5M3W493m89Pb587W4s3V4dff60RGSdHW3c7Z5tPd6c3S2NDe7snT3tLb5dDZ487V3dbd5dTd 5tPc5dHa487X4Nbf6MvT2+fu9SssLdzd3tTe59Pd5tHb5M/Z4s3X4MPM1NLb49DZ4c/Y4M7X383W 3szV3dni6srb6s/a49zj6dPa4Nzi59nl7sbQ2MzW3lFVWNbg6M/Y39bf5tXe5dTd5F9jZs/X3cnb 58jT29Pe5tHc5M3Y4Nbh6cjS2dLc49Hb4tDa4czW3cvV3MrU297o79bg59jh59bf5aetsdXc4cja 5dHZ3s/a4Nrl69fi6NPd483X3ba/xNji6NTe5N3m69rj6NLb4M7d5SQmJ8HJzZacnzI0NX+DhUJE Rdnf4kdJSt7k51JUVcrb48/a39Xg5dDZ3cvU2Nfg5Kyztr3Ex9Tb3sbX3c3d49be4c/f5MrZ3tLh 5omPkZ2jpU5RUl1gYcvc4dLd4MbQ0+z3+ktPUHl9fpCUlc7c31ZbXNnj5c3W2Mbb36OpqtLg4rK6 u9ri49HZ2s/b3OHr7Mva2xgaGjo+Ph8hIdvn59fj49Xh4dPf39Hd3ScpKRMUFM/Z2VldXcrT05KY mC4wMNbe3tPb22xwcDU3NxscHHZ6ej0/Pzk7Ozc5OT9BQSYnJ9Td3MfPzrrBwNHd24SKiWhsa3F1 dNLW1VVYV2RpZ9fi3RUXFiIkI0tNTHyBfs/Z0dTg1pifmRESEUVHRV1iXK2yrGFjYFFSUE5PTRAQ DxgYFwQAAAMAAAUBAQYDAwYEBAcFBQgGBkhHRw4ODgwMDAgICP///yH5BAEAAP8ALAAAAABGADIA AAj/AP8JHEiwoMGDCBMqXMiwocOHECNKnEixosWLGDNq3Mixo0B7HkMi7BdMpEmB/QTSOymyXyWB weqtY8lx3at/1pA5oTmQAEiL0n7pQ8ZSwMBj0gQapegEH1GW/MqhxDZwpcR59o7128nyqbl7A/k1 JBdMWjBk9OpFmyaJn1WTSQU2e4rvoaN/XAWqi0Tvrce0BCfpOzXvorV6+QZQ1Fdu5sGgAhUPdMTP 3MV85urlhUjvnbh69Rb2mzRQGoFrFgdAexd6Ij1280oulPrP3DGBx5D9mrgu3i1xfiEKkOfwbrWn A8FGJADv1i1z9PKR0xc84boB1RMSWEqwHLmI5LxN/zPnpB49J/Hk7WaIr1qk9Q1bF4z7MN++S+YF 1mtGlSG/aAKVAx9D380XUT9pyVZbdgYho+A/BVLU30PYbfZPM/4sREBKBNkzoUG3KSSPOBDpI59A r/AjjT4K5WMQaDopB9M/BCy0zjn2lPOhdS4WRA8+PGR4kD53JQTPW9JgUw9yB7WWjzjKyEiRlAL9 wl1CPc6o4UDyeNNMhBMFQ1tVDvklWUI/fVRPkRWdKA2DBgnZk0In5nfRL6ip9FA/js2J0DyzCIQM P9XA+VBr5Vzp35n/6GMhQfTMww+H/xj6UGblMDkWaPfUM6ZDJ1YkzTHdXMIoS6FO5ARX8rBJU6oR OUlR4DVy8gQrRH3eahI2hVEUDIn/ZMkTmRVFgs2Aw35k0afJEtvsRpY+G1G00u5ZrUYPXiuqthnV yu1Eun7bULbiRkRuuQ4hK1BAADs=</element>
+                <element type="text/plain" name="办理时间">2012-10-15 16:28:55</element>
+            </column>
+        </columns>
+        <columns name="办理意见" id="blyj">
+            <column type="mixed">
+                <element type="text/plain" name="意见" rw="w" extend="phrase" id="opinion">已阅</element>
+            </column>
+        </columns>
+    </bodies>
+    <functions>
+        <function type="saveData">true</function>
+        <function type="getWorkItemDetails">true</function>
+        <function type="getHistoryRecords">true</function>
+        <function type="getNextBranches">true</function>
+        <function type="getParticipants">true</function>
+        <function type="getFile">true</function>
+        <function type="commitWorkItem">true</function>
+    </functions>
+</root>

@@ -1,0 +1,75 @@
+﻿<root>
+	<returncode>OK</returncode>
+	<flowinstanceid>AAATest_FPM</flowinstanceid>
+	<bodies>
+		<columns name="主数据区" id="MainArea">
+			<column type="text/plain" name="单据编号" id="BillNumber">WBYJ201204150692</column>
+			<column type="text/plain" name="申请人" id="RequisitionUser" visible="true">黄闻</column>
+			<column type="text/plain" name="申请人部门" id="RequisitionUserDepartment" visible="true">营销甘肃销区</column>
+			<column type="text/plain" name="币种" id="CurrencyID">人民币</column>
+			<column type="text/plain" name="原币金额合计" id="OriginalAmount" visible="true">90000.00</column>
+			<column type="text/plain" name="业务日期" id="OccurTime">2012-4-15 11:25:30</column>
+			<column type="text/plain" name="单据主表ID" id="BillDataID" visible="false">6503d4f5-7840-40b6-9d03-a03400bc4759</column>
+			<column type="text/plain" name="备注" id="Memo" />
+		</columns>
+		<columns name="附件" id="AttachmentArea">
+			<column type="mixed">
+				<element type="application/msword" name="甘肃省庆阳公司品牌宣传交流会方案.doc" id="51a5b8cd-5578-4630-acd4-15a22a809558">查看</element>
+				<element type="text/plain" name="附件名称" id="AttachmentFileName" visible="false">甘肃省庆阳公司品牌宣传交流会方案</element>
+				<element type="text/plain" name="上传者" id="UploadUser" visible="true">黄闻</element>
+				<element type="text/plain" name="上传时间" id="CreateTime" visible="true">2012-8-22 11:56:14</element>
+				<element type="text/plain" name="附件ID" id="AttachmentID" visible="false">192a4e4f-816f-4d06-95e1-ca134ac3c7b0</element>
+			</column>
+		</columns>
+		<columns name="明细区" id="DetailArea">
+			<column type="mixed">
+				<element type="text/plain" name="组织机构" id="DimSubject" visible="true">营销甘肃销区</element>
+				<element type="text/plain" name="预算科目" id="DimAccount" visible="true">借款及备用金</element>
+				<element type="text/plain" name="原币金额" id="OriginalCurrency" visible="true">90000.00</element>
+				<element type="mixed" name="费用明细" id="HasExspenseDetail" visible="false">0</element>
+				<element type="text/plain" name="本币金额" id="NaturalCurrency" visible="true">90000.00</element>
+				<element type="text/plain" name="费用描述" id="Summary">甘肃销区1133工程渠道建设自建项目借款</element>
+				<element type="text/plain" name="明细ID" id="BillDetailDataID" visible="false">1071f667-88e4-4e58-a17a-a03400bc47ce</element>
+			</column>
+			<column type="mixed" id="AAA">
+				<element type="text/plain" name="序号" id="OrderIndex" extend="columndetail">1</element>
+			</column>
+		</columns>
+		<columns name="收款区" id="PaymentArea">
+			<column type="mixed">
+				<element type="text/plain" name="收款人" id="InceptName" visible="true">黄闻</element>
+				<element type="text/plain" name="收款人银行" id="InceptBank" visible="true">浦发银行</element>
+				<element type="text/plain" name="收款人账号" id="InceptAccount" visible="true">6225232600464197</element>
+				<element type="text/plain" name="金额" id="NaturalCurrency" visible="true">90000.00</element>
+				<element type="text/plain" name="结算方式" id="BalanceType" visible="true">网上银行</element>
+			</column>
+		</columns>
+		<columns name="付款区" id="PaymentArea">
+			<column type="mixed">
+				<element type="text/plain" name="付款银行" id="PaymentBank" visible="true" />
+				<element type="text/plain" name="付款账户" id="PaymentAccount" visible="true" />
+				<element type="text/plain" name="结算日期" id="PaymentDate" visible="true">2012-4-15 11:28:16</element>
+				<element type="text/plain" name="付款条目ID" id="PaymentDataID" visible="false">38df6ff4-4115-4e96-891a-a03400bc47d3</element>
+				<element type="text/plain" name="凭证号" id="Item01" />
+				<element type="text/plain" name="合同总额" id="Item02" />
+				<element type="text/plain" name="凭证号" id="Item03" />
+			</column>
+		</columns>
+		<columns name="当前审批" id="ApprovalArea">
+			<column type="mixed">
+				<element type="text/plain" name="审批角色" >费用会计</element>
+				<element type="text/plain" name="审批意见" id="Comment" rw="wa0" extend="phrase" />
+				<element type="text/plain" name="签字" id="Signing" rw="wb1" extend="signature" />
+			</column>
+		</columns>
+	</bodies>
+	<functions>
+		<function type='saveData'>true</function>
+			<function type='getWorkItemDetails'>true</function>
+			<function type='getHistoryRecords'>true</function>
+			<function type='getNextBranches'>true</function>
+			<function type='getParticipants'>true</function>
+			<function type='getFile'>true</function>
+			<function type='commitWorkItem'>true</function>
+	</functions>
+</root>

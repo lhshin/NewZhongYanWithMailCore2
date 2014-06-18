@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E00AD94F-9512-4E33-9FC5-B75DAB4ED2C9</string>
+	<key>IDESourceControlProjectName</key>
+	<string>NewZhongYan</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FF4DD3F6-A686-4724-A188-FB9054A97DEC</key>
+		<string>http://tam.hngytobacco.com:81/scm/svn/A14008ZK/03code/01Clients/03iPhone/yangz/ecm</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>NewZhongYan/NewZhongYan.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FF4DD3F6-A686-4724-A188-FB9054A97DEC</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>FF4DD3F6-A686-4724-A188-FB9054A97DEC</key>
+		<string>http://tam.hngytobacco.com:81/scm/svn/A14008ZK</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>http://tam.hngytobacco.com:81/scm/svn/A14008ZK/03code/01Clients/03iPhone/yangz/ecm/NewZhongYan/NewZhongYan.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FF4DD3F6-A686-4724-A188-FB9054A97DEC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FF4DD3F6-A686-4724-A188-FB9054A97DEC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ecm</string>
+		</dict>
+	</array>
+</dict>
+</plist>

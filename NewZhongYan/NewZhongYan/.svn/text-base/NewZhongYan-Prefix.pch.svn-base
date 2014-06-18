@@ -1,0 +1,95 @@
+//
+// Prefix header for all source files of the 'NewZhongYan' target in the 'NewZhongYan' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import "SKClientApp.h"
+    #import "SKChannel.h" 
+    #import "SKChanneltp.h"
+    #import "SKECMURLManager.h"
+    #import "OpenUDID.h"
+    #import "Reachability.h"
+    #import "NetUtils.h"
+    #import "FileUtils.h"
+    #import "DateUtils.h"
+    #import "JSONKit.h"
+    #import "UIAlertView+hnzy.h"
+    #import "UIImage+rescale.h"
+    #import "NSString+codec.h"
+    #import "LocalDataMeta.h"
+    #import "DBQueue.h"
+    #import "Sqlite.h"
+    #import "User.h"
+    #import "utils.h"
+    #import "BWStatusBarOverlay.h"
+    #import "UINavigationController+SGProgress.h"
+    #import "FTAnimation.h"
+#endif
+
+#define CONNECTIONSUCCEED   200 //连接成功
+#define CONNECTIONFORBIDDEN 403 //连接被拒绝
+#define CONNECTIONFAILED    404 //连接失败
+#define BADREQUEST          400 //错误的请求
+
+#define ReportLossCode      3004 //挂失
+#define RegistInfoCode      3005 //注册信息无效
+#define AuthInfoCode        3006
+#define DataNoneCode        3011
+//#define SD_WEBP 1
+
+typedef void (^basicBlock)(void);
+typedef void (^errorBlock)(NSDictionary *errorinfo);
+typedef void (^completeBlock)(NSDictionary *comoleteinfo);
+typedef void (^resultsetBlock)(NSArray *resultset);
+//判断是不是iphone5
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
+
+#define IS_IOS7 [[[UIDevice currentDevice] systemVersion] floatValue] >= 7
+//判断登陆是否有效
+#define validloginurl [NSURL URLWithString:@"http://tam.hngytobacco.com/test-logon.html"]
+//登陆的url
+#define loginurl      [NSURL URLWithString:@"http://tam.hngytobacco.com/pkmslogin.form"]
+//登出的url
+#define logouturl      [NSURL URLWithString:@"http://tam.hngytobacco.com/pkmslogout.form"]
+
+#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+
+#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+
+#define SAFE_RELEASE(x) [x release];x=nil
+
+//构建一个颜色
+#define COLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1]
+
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
+
+#define DARK_BACKGROUND  [UIColor colorWithRed:151.0/255.0 green:152.0/255.0 blue:155.0/255.0 alpha:1.0]
+#define LIGHT_BACKGROUND [UIColor colorWithRed:172.0/255.0 green:173.0/255.0 blue:175.0/255.0 alpha:1.0]
+#define TopY ((IS_IOS7) ? (64) : (0))
+#define BottomY ((IS_IOS7) ? ([UIScreen mainScreen].bounds.size.height) : ([UIScreen mainScreen].bounds.size.height - 20 - 44))
+#define ScreenHeight ((IS_IOS7) ? ([UIScreen mainScreen].bounds.size.height) : ([UIScreen mainScreen].bounds.size.height - 64))
+
+#define Image(_pointer) [UIImage imageNamed:_pointer]
+
+//测试环境
+//#define ZZZobt @"http://tam.hngytobacco.com/ZZZobta/aaa-agents/avs"
+
+//正式环境下的测试环境下
+//#define ZZZobt @"http://tam.hngytobacco.com/ZZZobtb/aaa-agents-test/avs"
+
+//正式环境
+#define ZZZobt @"http://tam.hngytobacco.com/ZZZobtb/aaa-agents/avs"
+
+//测试环境2
+//#define ZZZobt @"http://192.168.1.198:8080/aaa-agents-web/avs"
+
+//判断 手机的版本是不是大于某个值
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v) ([[[UIDevice currentDevice] systemVersion] compare:(v) options:NSNumericSearch] != NSOrderedAscending)
