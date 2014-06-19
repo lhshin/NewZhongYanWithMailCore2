@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <MailCore/MailCore.h>
 @interface SKMailCoreServiceProvider : NSObject
-@property (strong, nonatomic) MCOIMAPSession * imapSession;
+@property (strong, nonatomic) MCOIMAPSession *imapSession;
+@property (strong, nonatomic) NSMutableDictionary *syncStates;
+@property BOOL isFolderSyncing;
 + (SKMailCoreServiceProvider *) getSKMailCoreServiceProviderInstance;
 + (void) imapFolderTableCheck;
 - (void) startImapService;

@@ -5,41 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>E00AD94F-9512-4E33-9FC5-B75DAB4ED2C9</string>
+	<string>E2A39F04-803D-449C-94AE-AFBC9C209F4B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>NewZhongYan</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>FF4DD3F6-A686-4724-A188-FB9054A97DEC</key>
-		<string>http://tam.hngytobacco.com:81/scm/svn/A14008ZK/03code/01Clients/03iPhone/yangz/ecm</string>
+		<key>B70539D2-25A3-483D-9662-1623AE0A7D6E</key>
+		<string>https://github.com/lhshin/NewZhongYanWithMailCore2.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>NewZhongYan/NewZhongYan.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>FF4DD3F6-A686-4724-A188-FB9054A97DEC</key>
+		<key>B70539D2-25A3-483D-9662-1623AE0A7D6E</key>
 		<string>../../..</string>
 	</dict>
-	<key>IDESourceControlProjectRepositoryRootDictionary</key>
-	<dict>
-		<key>FF4DD3F6-A686-4724-A188-FB9054A97DEC</key>
-		<string>http://tam.hngytobacco.com:81/scm/svn/A14008ZK</string>
-	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>http://tam.hngytobacco.com:81/scm/svn/A14008ZK/03code/01Clients/03iPhone/yangz/ecm/NewZhongYan/NewZhongYan.xcodeproj</string>
+	<string>https://github.com/lhshin/NewZhongYanWithMailCore2.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>FF4DD3F6-A686-4724-A188-FB9054A97DEC</string>
+	<string>B70539D2-25A3-483D-9662-1623AE0A7D6E</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
+			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>FF4DD3F6-A686-4724-A188-FB9054A97DEC</string>
+			<string>B70539D2-25A3-483D-9662-1623AE0A7D6E</string>
 			<key>IDESourceControlWCCName</key>
-			<string>ecm</string>
+			<string>NewZhongYanWithMailCore2</string>
 		</dict>
 	</array>
 </dict>

@@ -7,9 +7,62 @@
 //
 
 #import "SKMailCoreServiceProvider.h"
-
+#import "FileUtils.h"
+#import "SKMailConstants.h"
 
 @implementation SKMailCoreServiceProvider
+
++ (void) initialize
+{
+    if (self == [SKMailCoreServiceProvider class]) {
+        [self initialFolders];
+    }
+}
+
+- (instancetype) init
+{
+    self = [super init];
+    if (self) {
+		
+        NSString *folderPathName = [SKMailCoreServiceProvider getFolderPathName];
+        
+        if(![[NSFileManager defaultManager] fileExistsAtPath:folderPathName]) {
+            [SKMailCoreServiceProvider initialFolders];
+        }
+        NSData *fileData = [[NSData alloc] initWithContentsOfFile:folderPathName];
+        _syncStates = [NSPropertyListSerialization propertyListWithData:fileData options:NSPropertyListMutableContainersAndLeaves format:nil error:nil];
+        
+    }
+    return self;
+}
+
++ (NSString *) getFolderPathName {
+    NSString *documentPath = [FileUtils documentPath];
+    NSString *folderPathName = [documentPath stringByAppendingPathComponent:IMAP_FOLDER_PLIST];
+    return folderPathName;
+}
+
++ (void) initialFolders {
+    NSString *folderPathName = [self getFolderPathName];
+
+    if (![[NSFileManager defaultManager] fileExistsAtPath:folderPathName]) {
+        
+        NSMutableArray *folderStates = [[NSMutableArray alloc] initWithCapacity:6];
+        
+        NSArray *keys = [DEFAULT_FOLDERS_DICT allKeys];
+        for(int i = 0; i < [keys count]; i++){
+            NSString *key = [keys objectAtIndex:i];
+            [folderStates addObject:@{FOLDER_PATH: key, FOLDER_DISPLAY_NAME: [DEFAULT_FOLDERS_DICT objectForKey:key]}];
+        }
+        NSMutableDictionary *props = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"0", FOLDER_VERSION, folderStates, FOLDER_STATES_KEY, nil];
+        if(![props writeToFile:folderPathName atomically:YES]) {
+            NSLog(@"Unsuccessful in creating folders to file %@", folderPathName);
+        }
+    }
+}
+
+
+
 + (SKMailCoreServiceProvider *) getSKMailCoreServiceProviderInstance
 {
     static SKMailCoreServiceProvider *sharedSKMailCoreServiceProviderInstance = nil;
@@ -44,18 +97,58 @@
 {
     //1.同步文件夹
     //2.同步各文件夹内容
-    
-    MCOIMAPFetchFoldersOperation *op = [self.imapSession fetchAllFoldersOperation];
-    [op start:^(NSError *error, NSArray *folders) {
+    if (_isFolderSyncing) {
+        return;
+    }
+    _isFolderSyncing = YES;
+    MCOIMAPFetchFoldersOperation *folderOP = [_imapSession fetchAllFoldersOperation];
+    [folderOP start:^(NSError *error, NSArray *folders) {
         if (error) {
             [self imapErrorHandler:error];
             NSLog(@"Error fetching all folders:%@", error);
+            return;
         }
 
-        //NSLog(@"The folders are:%@", folders);
+        NSArray *folderItems = [_syncStates objectForKey:FOLDER_STATES_KEY];
         for (MCOIMAPFolder *folder in folders) {
+            for (NSMutableDictionary *folderItem in folderItems) {
+                if ([[folderItem objectForKey:FOLDER_PATH] isEqualToString:folder.path]) {
+                    MCOIMAPFolderStatusOperation *folderStatusOP = [_imapSession folderStatusOperation:folder.path];
+                    [folderStatusOP start:^(NSError *error, MCOIMAPFolderStatus *status) {
+                        
+                        if (error) {
+                            [self imapErrorHandler:error];
+                            NSLog(@"Error fetching folder %@ status:%@", folder.path, error);
+                            return;
+                        }
+
+                        [folderItem setObject:[NSNumber numberWithUnsignedInt:status.uidNext] forKey:UID_NEXT];
+                        [folderItem setObject:[NSNumber numberWithUnsignedInt:status.uidValidity] forKey:UID_VALIDITY];
+                        [folderItem setObject:[NSNumber numberWithUnsignedInt:status.recentCount] forKey:RECENT_COUNT];
+                        [folderItem setObject:[NSNumber numberWithUnsignedInt:status.unseenCount] forKey:UNSEEN_COUNT];
+                        [folderItem setObject:[NSNumber numberWithUnsignedInt:status.messageCount] forKey:MESSAGE_COUNT];
+                        
+                        if ([folder isEqual:[folders lastObject]] && [folderItem isEqual:[folderItems lastObject]]) {
+                            NSNumber *ver = [NSNumber numberWithInt:[[_syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
+                            [_syncStates setObject:ver forKey:FOLDER_VERSION];
+                            if(![_syncStates writeToFile:[SKMailCoreServiceProvider getFolderPathName] atomically:YES]) {
+                                NSLog(@"Unsuccessful in save folders to file:%@", _syncStates);
+                            }
+                            _isFolderSyncing = NO;
+                            //文件夹同步完成，开始同步邮件列表
+                            [self performSelector:@selector(syncMails)];
+                        }
+                    }];
+                }
+            }
         }
+        
+        
     }];
+}
+
+- (void) syncMails {
+    
 }
 
 - (void) imapErrorHandler:(NSError *) error

@@ -347,6 +347,8 @@
             NSLog(@"header is:%@", header);
         }
     }];
+    
+    [instance startImapService];
      
     /* test imap */
 }
