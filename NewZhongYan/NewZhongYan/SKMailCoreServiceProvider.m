@@ -97,10 +97,10 @@
 {
     //1.同步文件夹
     //2.同步各文件夹内容
-    if (_isFolderSyncing) {
+    if (_isSyncing) {
         return;
     }
-    _isFolderSyncing = YES;
+    _isSyncing = YES;
     MCOIMAPFetchFoldersOperation *folderOP = [_imapSession fetchAllFoldersOperation];
     [folderOP start:^(NSError *error, NSArray *folders) {
         if (error) {
@@ -134,7 +134,7 @@
                             if(![_syncStates writeToFile:[SKMailCoreServiceProvider getFolderPathName] atomically:YES]) {
                                 NSLog(@"Unsuccessful in save folders to file:%@", _syncStates);
                             }
-                            _isFolderSyncing = NO;
+                            
                             //文件夹同步完成，开始同步邮件列表
                             [self performSelector:@selector(syncMails)];
                         }
@@ -148,6 +148,37 @@
 }
 
 - (void) syncMails {
+    
+    NSArray *folderItems = [_syncStates objectForKey:FOLDER_STATES_KEY];
+    MCOIMAPMessagesRequestKind requestKind = MCOIMAPMessagesRequestKindHeaders | MCOIMAPMessagesRequestKindFlags;
+    
+    for (NSMutableDictionary *folderItem in folderItems) {
+        
+    }
+    
+    
+    //MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake([info messageCount] - numberOfMessages, numberOfMessages)];
+    MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
+    
+    MCOIMAPFetchMessagesOperation *fetchOperation = [_imapSession fetchMessagesByUIDOperationWithFolder:@"INBOX"
+                                                                                            requestKind:requestKind
+                                                                                                   uids:uids];
+    
+    [fetchOperation start:^(NSError * error, NSArray * fetchedMessages, MCOIndexSet * vanishedMessages) {
+        //We've finished downloading the messages!
+        //Let's check if there was an error:
+        if(error) {
+            [self imapErrorHandler:error];
+            NSLog(@"Error downloading message headers:%@", error);
+        }
+
+        //And, let's print out the messages...
+        NSLog(@"The post man delivereth:%@", fetchedMessages);
+        for (MCOIMAPMessage *message in fetchedMessages) {
+            MCOMessageHeader *header = message.header;
+            NSLog(@"header is:%@", header);
+        }
+    }];
     
 }
 
