@@ -326,9 +326,36 @@
     
     
     //获取文件夹内容
-    MCOIMAPMessagesRequestKind requestKind = MCOIMAPMessagesRequestKindHeaders | MCOIMAPMessagesRequestKindFlags | MCOIMAPMessagesRequestKindStructure;
+    MCOIMAPMessagesRequestKind requestKind =
+    /** This is the default and it's always fetched*/
+    MCOIMAPMessagesRequestKindUid              |
+    /** Flags of the message.*/
+    //MCOIMAPMessagesRequestKindFlags          |
+    /** Headers of the message (parsed by the server).*/
+    //MCOIMAPMessagesRequestKindHeaders        |
+    /** MIME structure of the message.*/
+    MCOIMAPMessagesRequestKindStructure      //|
+    /** Received date.*/
+    //MCOIMAPMessagesRequestKindInternalDate   |
+    /** Headers through headers data.*/
+    //MCOIMAPMessagesRequestKindFullHeaders    |
+    /** Subject of the message.*/
+    //MCOIMAPMessagesRequestKindHeaderSubject  |
+    /** Gmail Labels.*/
+    //MCOIMAPMessagesRequestKindGmailLabels    |
+	/** Gmail Message ID.*/
+    //MCOIMAPMessagesRequestKindGmailMessageID |
+    /** Gmail Thread ID.*/
+    //MCOIMAPMessagesRequestKindGmailThreadID  |
+    /** Extra Headers.*/
+    //MCOIMAPMessagesRequestKindExtraHeaders   |
+    /* Request size of message */
+    //MCOIMAPMessagesRequestKindSize
+    ;
     
     MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
+    
+//    [instance.imapSession setConnectionLogger:^(void * connectionID, MCOConnectionLogType type, NSData * data) { NSString *setConnectionLoggerStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; NSLog(@"ConnectionLogger event logged: %i withData: %@", type, setConnectionLoggerStr); }];
 
     MCOIMAPFetchMessagesOperation *fetchOperation = [instance.imapSession fetchMessagesByUIDOperationWithFolder:@"INBOX" requestKind:requestKind uids:uids];
 
@@ -343,12 +370,23 @@
         //And, let's print out the messages...
         NSLog(@"The post man delivereth:%@", fetchedMessages);
         for (MCOIMAPMessage *message in fetchedMessages) {
-            MCOMessageHeader *header = message.header;
-            NSLog(@"header is:%@", header);
+            NSLog(@"uid:%u", message.uid);
+            //MCOMessageHeader *header = message.header;
+            //NSLog(@"header is:%@", header);
         }
     }];
     
-    [instance startImapService];
+    
+//    MCOIMAPFetchMessagesOperation * op = [instance.imapSession syncMessagesByUIDWithFolder:@"INBOX"
+//                                                                  requestKind:MCOIMAPMessagesRequestKindUid
+//                                                                         uids:[MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)]
+//                                                                       modSeq:0];
+//    [op start:^(NSError * error, NSArray * messages, MCOIndexSet * vanishedMessages) {
+//        NSLog(@"added or modified messages: %@", messages);
+//        NSLog(@"deleted messages: %@", vanishedMessages);
+//    }];
+    
+    //[instance startImapService];
      
     /* test imap */
 }

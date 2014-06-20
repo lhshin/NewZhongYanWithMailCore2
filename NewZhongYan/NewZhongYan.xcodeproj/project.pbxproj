@@ -1167,8 +1167,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F28846DC1803FBC8006A5D62 /* CFNetwork.framework in Frameworks */,
 				A397379A193D6DA400327C27 /* Security.framework in Frameworks */,
+				F28846DC1803FBC8006A5D62 /* CFNetwork.framework in Frameworks */,
 				A3973798193D6D8500327C27 /* libMailCore-ios.a in Frameworks */,
 				F28DF847185AABBC000B6C1F /* Accelerate.framework in Frameworks */,
 				F2F039651819101300B9116C /* AssetsLibrary.framework in Frameworks */,

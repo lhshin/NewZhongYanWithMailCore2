@@ -11,7 +11,7 @@
 @interface SKMailCoreServiceProvider : NSObject
 @property (strong, nonatomic) MCOIMAPSession *imapSession;
 @property (strong, nonatomic) NSMutableDictionary *syncStates;
-@property BOOL isFolderSyncing;
+@property BOOL isSyncing;
 + (SKMailCoreServiceProvider *) getSKMailCoreServiceProviderInstance;
 + (void) imapFolderTableCheck;
 - (void) startImapService;
