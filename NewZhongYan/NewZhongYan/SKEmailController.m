@@ -274,7 +274,7 @@
 //        }
 //        
 //    }];
-    
+/*
     SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSKMailCoreServiceProviderInstance];
 /*
     MCOIMAPCapabilityOperation *imapCapabilityOP = [[instance imapSession] capabilityOperation];
@@ -325,8 +325,10 @@
 //        }
 //    }];
     
-    
+    */
+    /*
     //获取文件夹内容
+<<<<<<< HEAD
     MCOIMAPMessagesRequestKind requestKind =
     /** This is the default and it's always fetched*/
     MCOIMAPMessagesRequestKindUid            |
@@ -353,6 +355,13 @@
     /* Request size of message */
     //MCOIMAPMessagesRequestKindSize
     ;
+=======
+    MCOIMAPMessagesRequestKind requestKind = MCOIMAPMessagesRequestKindHeaders
+                                           | MCOIMAPMessagesRequestKindStructure
+                                           | MCOIMAPMessagesRequestKindInternalDate
+                                           | MCOIMAPMessagesRequestKindHeaderSubject
+                                           | MCOIMAPMessagesRequestKindFlags;
+>>>>>>> FETCH_HEAD
     
     MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
     
@@ -372,8 +381,13 @@
         //And, let's print out the messages...
         NSLog(@"The post man delivereth:%@", fetchedMessages);
         for (MCOIMAPMessage *message in fetchedMessages) {
+<<<<<<< HEAD
             //NSLog(@"mainpart:%@", message.mainPart);
             NSLog(@"uid:%u, subject:%@, mainPart:%@", message.uid, message.header.subject, message.mainPart);
+=======
+            NSLog(@"uid:%u, subject:%@", message.uid, message.header.subject);
+            NSLog(@"mainPart:%@", message.mainPart);
+>>>>>>> FETCH_HEAD
             //MCOMessageHeader *header = message.header;
             //NSLog(@"header is:%@", header);
             
@@ -388,12 +402,14 @@
             }];
         }
     }];
-    
+    */
     
     
 
     
-    //[instance startImapService];
+    
+    SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSKMailCoreServiceProviderInstance];
+    [instance startImapService];
      
     /* test imap */
 }

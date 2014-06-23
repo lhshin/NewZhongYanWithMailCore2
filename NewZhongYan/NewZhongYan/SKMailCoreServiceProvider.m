@@ -30,7 +30,7 @@
             [SKMailCoreServiceProvider initialFolders];
         }
         NSData *fileData = [[NSData alloc] initWithContentsOfFile:folderPathName];
-        _syncStates = [NSPropertyListSerialization propertyListWithData:fileData options:NSPropertyListMutableContainersAndLeaves format:nil error:nil];
+        self.syncStates = [NSPropertyListSerialization propertyListWithData:fileData options:NSPropertyListMutableContainersAndLeaves format:nil error:nil];
         
     }
     return self;
@@ -97,25 +97,26 @@
 {
     //1.同步文件夹
     //2.同步各文件夹内容
-    if (_isSyncing) {
+    if (self.isSyncing) {
         return;
     }
-    _isSyncing = YES;
-    MCOIMAPFetchFoldersOperation *folderOP = [_imapSession fetchAllFoldersOperation];
+    self.isSyncing = YES;
+    //[self.imapSession checkAccountOperation];
+    MCOIMAPFetchFoldersOperation *folderOP = [self.imapSession fetchAllFoldersOperation];
     [folderOP start:^(NSError *error, NSArray *folders) {
         if (error) {
             [self imapErrorHandler:error];
             NSLog(@"Error fetching all folders:%@", error);
+            self.isSyncing = NO;
             return;
         }
 
-        NSArray *folderItems = [_syncStates objectForKey:FOLDER_STATES_KEY];
+        NSArray *folderItems = [self.syncStates objectForKey:FOLDER_STATES_KEY];
         for (MCOIMAPFolder *folder in folders) {
             for (NSMutableDictionary *folderItem in folderItems) {
                 if ([[folderItem objectForKey:FOLDER_PATH] isEqualToString:folder.path]) {
-                    MCOIMAPFolderStatusOperation *folderStatusOP = [_imapSession folderStatusOperation:folder.path];
+                    MCOIMAPFolderStatusOperation *folderStatusOP = [self.imapSession folderStatusOperation:folder.path];
                     [folderStatusOP start:^(NSError *error, MCOIMAPFolderStatus *status) {
-                        
                         if (error) {
                             [self imapErrorHandler:error];
                             NSLog(@"Error fetching folder %@ status:%@", folder.path, error);
@@ -128,16 +129,13 @@
                         [folderItem setObject:[NSNumber numberWithUnsignedInt:status.unseenCount] forKey:UNSEEN_COUNT];
                         [folderItem setObject:[NSNumber numberWithUnsignedInt:status.messageCount] forKey:MESSAGE_COUNT];
                         
-                        if ([folder isEqual:[folders lastObject]] && [folderItem isEqual:[folderItems lastObject]]) {
-                            NSNumber *ver = [NSNumber numberWithInt:[[_syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
-                            [_syncStates setObject:ver forKey:FOLDER_VERSION];
-                            if(![_syncStates writeToFile:[SKMailCoreServiceProvider getFolderPathName] atomically:YES]) {
-                                NSLog(@"Unsuccessful in save folders to file:%@", _syncStates);
-                            }
-                            
-                            //文件夹同步完成，开始同步邮件列表
-                            [self performSelector:@selector(syncMails)];
+                        if(![self.syncStates writeToFile:[SKMailCoreServiceProvider getFolderPathName] atomically:YES]) {
+                            NSLog(@"Unsuccessful in save folders %@ to file:%@", folder.path, self.syncStates);
                         }
+                        //文件夹同步完成，开始同步邮件列表
+                        NSLog(@"Folder %@ sync completed", folder.path);
+                        [self performSelector:@selector(syncMails:) withObject:folderItem];
+                        
                     }];
                 }
             }
@@ -147,39 +145,71 @@
     }];
 }
 
-- (void) syncMails {
+- (void) syncMails:(NSMutableDictionary *)folderState {
+    NSLog(@"syncMails----folderSates:%@", folderState);
+    MCOIMAPMessagesRequestKind requestKind =  MCOIMAPMessagesRequestKindHeaders
+                                            | MCOIMAPMessagesRequestKindStructure
+                                            | MCOIMAPMessagesRequestKindInternalDate
+                                            | MCOIMAPMessagesRequestKindHeaderSubject
+                                            | MCOIMAPMessagesRequestKindFlags;
     
-    NSArray *folderItems = [_syncStates objectForKey:FOLDER_STATES_KEY];
-    MCOIMAPMessagesRequestKind requestKind = MCOIMAPMessagesRequestKindHeaders | MCOIMAPMessagesRequestKindFlags;
-    
-    for (NSMutableDictionary *folderItem in folderItems) {
-        
-    }
-    
-    
-    //MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake([info messageCount] - numberOfMessages, numberOfMessages)];
-    MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
-    
-    MCOIMAPFetchMessagesOperation *fetchOperation = [_imapSession fetchMessagesByUIDOperationWithFolder:@"INBOX"
-                                                                                            requestKind:requestKind
-                                                                                                   uids:uids];
-    
-    [fetchOperation start:^(NSError * error, NSArray * fetchedMessages, MCOIndexSet * vanishedMessages) {
-        //We've finished downloading the messages!
-        //Let's check if there was an error:
-        if(error) {
-            [self imapErrorHandler:error];
-            NSLog(@"Error downloading message headers:%@", error);
-        }
+    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake(1, 3)];
+//    int numberOfMessages = DEFAULT_MESSSAGE_NUM;
+//    numberOfMessages -= 1;
+//    NSLog(@"numberOfMessages:%i, after minus:%i",numberOfMessages, [[folderState objectForKey:MESSAGE_COUNT] intValue] - numberOfMessages);
+//    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake([[folderState objectForKey:MESSAGE_COUNT] intValue] - numberOfMessages, numberOfMessages)];
 
-        //And, let's print out the messages...
-        NSLog(@"The post man delivereth:%@", fetchedMessages);
-        for (MCOIMAPMessage *message in fetchedMessages) {
-            MCOMessageHeader *header = message.header;
-            NSLog(@"header is:%@", header);
+    
+    MCOIMAPFetchMessagesOperation *fetchOperation = [self.imapSession fetchMessagesByNumberOperationWithFolder:[folderState objectForKey:FOLDER_PATH]
+                                                                                                   requestKind:requestKind                                                                                              numbers:numbers];
+
+    
+    [fetchOperation start:^(NSError *error, NSArray *messages, MCOIndexSet *vanishedMessages) {
+        if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
+            NSLog(@"inbox:%@", numbers);
+        }
+        if (error) {
+            [self imapErrorHandler:error];
+            NSLog(@"Error fetching folder %@ for mail:%@", [folderState objectForKey:FOLDER_PATH], error);
+            return;
+        }
+        for (MCOIMAPMessage * message in messages) {
+            NSLog(@"%u", [message uid]);
+        }
+        self.syncFolderCount++;
+        if (self.syncFolderCount == [[self.syncStates objectForKey:FOLDER_STATES_KEY] count] - 1) {
+            NSLog(@"Sync completed!");
+            NSNumber *ver = [NSNumber numberWithInt:[[self.syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
+            [self.syncStates setObject:ver forKey:FOLDER_VERSION];
+            self.syncFolderCount = 0;
+            self.isSyncing = NO;
+            NSLog(@"Sync END!");
         }
     }];
+
     
+//    //MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake([info messageCount] - numberOfMessages, numberOfMessages)];
+//    MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
+//    
+//    MCOIMAPFetchMessagesOperation *fetchOperation = [self.imapSession fetchMessagesByUIDOperationWithFolder:@"INBOX"
+//                                                                                            requestKind:requestKind
+//                                                                                                   uids:uids];
+//    
+//    [fetchOperation start:^(NSError * error, NSArray * fetchedMessages, MCOIndexSet * vanishedMessages) {
+//        //We've finished downloading the messages!
+//        //Let's check if there was an error:
+//        if(error) {
+//            [self imapErrorHandler:error];
+//            NSLog(@"Error downloading message headers:%@", error);
+//        }
+//
+//        //And, let's print out the messages...
+//        NSLog(@"The post man delivereth:%@", fetchedMessages);
+//        for (MCOIMAPMessage *message in fetchedMessages) {
+//            MCOMessageHeader *header = message.header;
+//            NSLog(@"header is:%@", header);
+//        }
+//    }];
 }
 
 - (void) imapErrorHandler:(NSError *) error

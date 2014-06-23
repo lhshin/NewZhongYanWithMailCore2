@@ -35,6 +35,6 @@
 
 #define UNSEEN_COUNT @"unseenCount"
 
-#define DEFAULT_MESSSAGE_NUM 50
+#define DEFAULT_MESSSAGE_NUM 20
 
 #endif
