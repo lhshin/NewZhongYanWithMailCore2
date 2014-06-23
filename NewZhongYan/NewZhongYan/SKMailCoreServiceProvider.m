@@ -146,10 +146,10 @@
 }
 
 - (void) syncMails:(NSMutableDictionary *)folderState {
-    NSLog(@"syncMails----folderSates:%@", folderState);
+    //NSLog(@"syncMails----folderSates:%@", folderState);
     __block MCOIMAPMessagesRequestKind requestKind =  MCOIMAPMessagesRequestKindHeaders;
     
-    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake(1, 10)];
+    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake(84, 2)];
 //    int numberOfMessages = DEFAULT_MESSSAGE_NUM;
 //    numberOfMessages -= 1;
 //    NSLog(@"numberOfMessages:%i, after minus:%i",numberOfMessages, [[folderState objectForKey:MESSAGE_COUNT] intValue] - numberOfMessages);
@@ -171,12 +171,15 @@
         }
         MCOIndexSet *uids = [MCOIndexSet indexSet];
         for (MCOIMAPMessage * message in messages) {
-            NSLog(@"uid:%u, subject:%@", [message uid], message.header.subject);
+            if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
+                NSLog(@"uid:%u, subject:%@, sender:%@", [message uid], message.header.subject, message.header.sender.displayName);
+            }
             if (![[message.header.sender.displayName uppercaseString] isEqualToString:POSTMASTER]) {
                 [uids addIndex:message.uid];
             }
             
         }
+        NSLog(@"fetchUids:%@", uids);
         if ([uids count]) {
 
             requestKind =  MCOIMAPMessagesRequestKindHeaders
@@ -195,7 +198,9 @@
                 return;
             }
             for (MCOIMAPMessage * fetchUidMessage in fetchUidMessages) {
-                NSLog(@"fetchuid:%u, subject:%@", [fetchUidMessage uid], fetchUidMessage.header.subject);
+                if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
+                    NSLog(@"fetchuid:%u, subject:%@", [fetchUidMessage uid], fetchUidMessage.header.subject);
+                }
             }
             
             self.syncFolderCount++;
