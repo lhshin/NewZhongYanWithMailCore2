@@ -37,4 +37,6 @@
 
 #define DEFAULT_MESSSAGE_NUM 20
 
+#define POSTMASTER @"POSTMASTER"
+
 #endif

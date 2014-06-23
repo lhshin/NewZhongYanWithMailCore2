@@ -147,13 +147,9 @@
 
 - (void) syncMails:(NSMutableDictionary *)folderState {
     NSLog(@"syncMails----folderSates:%@", folderState);
-    MCOIMAPMessagesRequestKind requestKind =  MCOIMAPMessagesRequestKindHeaders
-                                            | MCOIMAPMessagesRequestKindStructure
-                                            | MCOIMAPMessagesRequestKindInternalDate
-                                            | MCOIMAPMessagesRequestKindHeaderSubject
-                                            | MCOIMAPMessagesRequestKindFlags;
+    __block MCOIMAPMessagesRequestKind requestKind =  MCOIMAPMessagesRequestKindHeaders;
     
-    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake(1, 3)];
+    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake(1, 10)];
 //    int numberOfMessages = DEFAULT_MESSSAGE_NUM;
 //    numberOfMessages -= 1;
 //    NSLog(@"numberOfMessages:%i, after minus:%i",numberOfMessages, [[folderState objectForKey:MESSAGE_COUNT] intValue] - numberOfMessages);
@@ -173,18 +169,57 @@
             NSLog(@"Error fetching folder %@ for mail:%@", [folderState objectForKey:FOLDER_PATH], error);
             return;
         }
+        MCOIndexSet *uids = [MCOIndexSet indexSet];
         for (MCOIMAPMessage * message in messages) {
-            NSLog(@"%u", [message uid]);
+            NSLog(@"uid:%u, subject:%@", [message uid], message.header.subject);
+            if (![[message.header.sender.displayName uppercaseString] isEqualToString:POSTMASTER]) {
+                [uids addIndex:message.uid];
+            }
+            
         }
-        self.syncFolderCount++;
-        if (self.syncFolderCount == [[self.syncStates objectForKey:FOLDER_STATES_KEY] count] - 1) {
-            NSLog(@"Sync completed!");
-            NSNumber *ver = [NSNumber numberWithInt:[[self.syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
-            [self.syncStates setObject:ver forKey:FOLDER_VERSION];
-            self.syncFolderCount = 0;
-            self.isSyncing = NO;
-            NSLog(@"Sync END!");
+        if ([uids count]) {
+
+            requestKind =  MCOIMAPMessagesRequestKindHeaders
+                        | MCOIMAPMessagesRequestKindStructure
+                        | MCOIMAPMessagesRequestKindInternalDate
+                        | MCOIMAPMessagesRequestKindHeaderSubject
+                        | MCOIMAPMessagesRequestKindFlags;
+            
+            MCOIMAPFetchMessagesOperation *fetchByuidOp = [self.imapSession fetchMessagesByUIDOperationWithFolder:[folderState objectForKey:FOLDER_PATH]
+                                                                                                  requestKind:requestKind
+                                                                                                         uids:uids];
+        [fetchByuidOp start:^(NSError *fetchUidError, NSArray *fetchUidMessages, MCOIndexSet *fetchUidVanishedMessages) {
+            if (fetchUidError) {
+                [self imapErrorHandler:fetchUidError];
+                NSLog(@"Error fetching folder %@ with uids %@ for mail:%@", [folderState objectForKey:FOLDER_PATH], uids, fetchUidError);
+                return;
+            }
+            for (MCOIMAPMessage * fetchUidMessage in fetchUidMessages) {
+                NSLog(@"fetchuid:%u, subject:%@", [fetchUidMessage uid], fetchUidMessage.header.subject);
+            }
+            
+            self.syncFolderCount++;
+            if (self.syncFolderCount == [[self.syncStates objectForKey:FOLDER_STATES_KEY] count] - 1) {
+                NSNumber *ver = [NSNumber numberWithInt:[[self.syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
+                [self.syncStates setObject:ver forKey:FOLDER_VERSION];
+                self.syncFolderCount = 0;
+                self.isSyncing = NO;
+                NSLog(@"Sync END!");
+            }
+        }];
+            
+        } else {
+            
+            self.syncFolderCount++;
+            if (self.syncFolderCount == [[self.syncStates objectForKey:FOLDER_STATES_KEY] count] - 1) {
+                NSNumber *ver = [NSNumber numberWithInt:[[self.syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
+                [self.syncStates setObject:ver forKey:FOLDER_VERSION];
+                self.syncFolderCount = 0;
+                self.isSyncing = NO;
+                NSLog(@"Sync END!");
+            }
         }
+
     }];
 
     

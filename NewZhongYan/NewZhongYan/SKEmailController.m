@@ -274,7 +274,7 @@
 //        }
 //        
 //    }];
-/*
+
     SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSKMailCoreServiceProviderInstance];
 /*
     MCOIMAPCapabilityOperation *imapCapabilityOP = [[instance imapSession] capabilityOperation];
@@ -316,7 +316,7 @@
             
         }
     }];
-    */
+*/
     
 //    MCOIMAPOperation *imapOP = [[instance imapSession] createFolderOperation:@"ios"];
 //    [imapOP start:^(NSError *error) {
@@ -325,44 +325,16 @@
 //        }
 //    }];
     
-    */
+
+    
     /*
-    //获取文件夹内容
-<<<<<<< HEAD
-    MCOIMAPMessagesRequestKind requestKind =
-    /** This is the default and it's always fetched*/
-    MCOIMAPMessagesRequestKindUid            |
-    /** Flags of the message.*/
-    MCOIMAPMessagesRequestKindFlags          |
-    /** Headers of the message (parsed by the server).*/
-    MCOIMAPMessagesRequestKindHeaders        |
-    /** MIME structure of the message.*/
-    MCOIMAPMessagesRequestKindStructure      //|
-    /** Received date.*/
-    //MCOIMAPMessagesRequestKindInternalDate   |
-    /** Headers through headers data.*/
-    //MCOIMAPMessagesRequestKindFullHeaders    |
-    /** Subject of the message.*/
-    //MCOIMAPMessagesRequestKindHeaderSubject  |
-    /** Gmail Labels.*/
-    //MCOIMAPMessagesRequestKindGmailLabels    |
-	/** Gmail Message ID.*/
-    //MCOIMAPMessagesRequestKindGmailMessageID |
-    /** Gmail Thread ID.*/
-    //MCOIMAPMessagesRequestKindGmailThreadID  |
-    /** Extra Headers.*/
-    //MCOIMAPMessagesRequestKindExtraHeaders   |
-    /* Request size of message */
-    //MCOIMAPMessagesRequestKindSize
-    ;
-=======
     MCOIMAPMessagesRequestKind requestKind = MCOIMAPMessagesRequestKindHeaders
-                                           | MCOIMAPMessagesRequestKindStructure
+                                          // | MCOIMAPMessagesRequestKindStructure
                                            | MCOIMAPMessagesRequestKindInternalDate
                                            | MCOIMAPMessagesRequestKindHeaderSubject
+                                           | MCOIMAPMessagesRequestKindFullHeaders
                                            | MCOIMAPMessagesRequestKindFlags;
->>>>>>> FETCH_HEAD
-    
+
     MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
     
 //    [instance.imapSession setConnectionLogger:^(void * connectionID, MCOConnectionLogType type, NSData * data) { NSString *setConnectionLoggerStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; NSLog(@"ConnectionLogger event logged: %i withData: %@", type, setConnectionLoggerStr); }];
@@ -377,38 +349,34 @@
         if(error) {
             NSLog(@"Error downloading message headers:%@", error);
         }
-    //
+    
         //And, let's print out the messages...
         NSLog(@"The post man delivereth:%@", fetchedMessages);
         for (MCOIMAPMessage *message in fetchedMessages) {
-<<<<<<< HEAD
+
             //NSLog(@"mainpart:%@", message.mainPart);
-            NSLog(@"uid:%u, subject:%@, mainPart:%@", message.uid, message.header.subject, message.mainPart);
-=======
+            //NSLog(@"uid:%u, subject:%@, mainPart:%@", message.uid, message.header.subject, message.mainPart);
+
             NSLog(@"uid:%u, subject:%@", message.uid, message.header.subject);
-            NSLog(@"mainPart:%@", message.mainPart);
->>>>>>> FETCH_HEAD
-            //MCOMessageHeader *header = message.header;
-            //NSLog(@"header is:%@", header);
+            //NSLog(@"mainPart:%@", message.mainPart);
+
+            MCOMessageHeader *header = message.header;
+            NSLog(@"header is:%@", header);
             
-            MCOIMAPFetchContentOperation * op = [instance.imapSession fetchMessageByUIDOperationWithFolder:@"INBOX" uid:message.uid];
-            [op start:^(NSError *error, NSData *data) {
-                MCOMessageParser *parser = [MCOMessageParser messageParserWithData:data];
-                NSLog(@"mainPart:%@", [parser mainPart]);
-                NSArray *attachments = parser.attachments;
-                for (MCOAttachment * att in attachments) {
-                    NSLog(@"att:%@", att.filename);
-                }
-            }];
+//            MCOIMAPFetchContentOperation * op = [instance.imapSession fetchMessageByUIDOperationWithFolder:@"INBOX" uid:message.uid];
+//            [op start:^(NSError *error, NSData *data) {
+//                MCOMessageParser *parser = [MCOMessageParser messageParserWithData:data];
+//                NSLog(@"mainPart:%@", [parser mainPart]);
+//                NSArray *attachments = parser.attachments;
+//                for (MCOAttachment * att in attachments) {
+//                    NSLog(@"att:%@", att.filename);
+//                }
+//            }];
         }
     }];
     */
     
     
-
-    
-    
-    SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSKMailCoreServiceProviderInstance];
     [instance startImapService];
      
     /* test imap */
