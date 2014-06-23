@@ -17,7 +17,7 @@
 #define CLIENT_SECRET @"the-client-secret"
 #define KEYCHAIN_ITEM_NAME @"MailCore OAuth 2.0 Token"
 
-#define NUMBER_OF_MESSAGES_TO_LOAD		10
+#define NUMBER_OF_MESSAGES_TO_LOAD		3
 
 static NSString *mailCellIdentifier = @"MailCell";
 static NSString *inboxInfoIdentifier = @"InboxStatusCell";
@@ -115,14 +115,16 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 {
 	self.imapSession = [[MCOIMAPSession alloc] init];
 	self.imapSession.hostname = hostname;
-	self.imapSession.port = 993;
+//	self.imapSession.port = 993;
+    self.imapSession.port = 143;
 	self.imapSession.username = username;
 	self.imapSession.password = password;
     if (oauth2Token != nil) {
         self.imapSession.OAuth2Token = oauth2Token;
         self.imapSession.authType = MCOAuthTypeXOAuth2;
     }
-	self.imapSession.connectionType = MCOConnectionTypeTLS;
+//	self.imapSession.connectionType = MCOConnectionTypeTLS;
+    self.imapSession.connectionType = MCOConnectionTypeClear;
     MasterViewController * __weak weakSelf = self;
 	self.imapSession.connectionLogger = ^(void * connectionID, MCOConnectionLogType type, NSData * data) {
         @synchronized(weakSelf) {
@@ -168,13 +170,11 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 	
 	[inboxFolderInfo start:^(NSError *error, MCOIMAPFolderInfo *info)
 	{
-		BOOL totalNumberOfMessagesDidChange =
-		self.totalNumberOfInboxMessages != [info messageCount];
+		BOOL totalNumberOfMessagesDidChange = self.totalNumberOfInboxMessages != [info messageCount];
 		
 		self.totalNumberOfInboxMessages = [info messageCount];
 		
-		NSUInteger numberOfMessagesToLoad =
-		MIN(self.totalNumberOfInboxMessages, nMessages);
+		NSUInteger numberOfMessagesToLoad =	MIN(self.totalNumberOfInboxMessages, nMessages);
 		
 		if (numberOfMessagesToLoad == 0)
 		{
@@ -214,7 +214,7 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 		 [MCOIndexSet indexSetWithRange:fetchRange]];
 		
 		[self.imapMessagesFetchOp setProgress:^(unsigned int progress) {
-			NSLog(@"Progress: %u of %u", progress, numberOfMessagesToLoad);
+			NSLog(@"Progress: %u of %lu", progress, (unsigned long)numberOfMessagesToLoad);
 		}];
 		
 		__weak MasterViewController *weakSelf = self;
@@ -316,7 +316,7 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 			if (self.messages.count < self.totalNumberOfInboxMessages)
 			{
 				cell.textLabel.text =
-				[NSString stringWithFormat:@"Load %d more",
+				[NSString stringWithFormat:@"Load %u",
 				 MIN(self.totalNumberOfInboxMessages - self.messages.count,
 					 NUMBER_OF_MESSAGES_TO_LOAD)];
 			}
@@ -326,8 +326,8 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 			}
 			
 			cell.detailTextLabel.text =
-			[NSString stringWithFormat:@"%d message(s)",
-			 self.totalNumberOfInboxMessages];
+			[NSString stringWithFormat:@"%ld message(s)",
+			 (long)self.totalNumberOfInboxMessages];
 			
 			cell.accessoryView = self.loadMoreActivityView;
 			

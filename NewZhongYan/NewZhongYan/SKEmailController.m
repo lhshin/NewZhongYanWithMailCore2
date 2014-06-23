@@ -274,7 +274,7 @@
 //        }
 //        
 //    }];
-    
+/*
     SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSKMailCoreServiceProviderInstance];
 
     MCOIMAPCapabilityOperation *imapCapabilityOP = [[instance imapSession] capabilityOperation];
@@ -324,34 +324,14 @@
 //        }
 //    }];
     
-    
+    */
+    /*
     //获取文件夹内容
-    MCOIMAPMessagesRequestKind requestKind =
-    /** This is the default and it's always fetched*/
-    MCOIMAPMessagesRequestKindUid              |
-    /** Flags of the message.*/
-    //MCOIMAPMessagesRequestKindFlags          |
-    /** Headers of the message (parsed by the server).*/
-    //MCOIMAPMessagesRequestKindHeaders        |
-    /** MIME structure of the message.*/
-    MCOIMAPMessagesRequestKindStructure      //|
-    /** Received date.*/
-    //MCOIMAPMessagesRequestKindInternalDate   |
-    /** Headers through headers data.*/
-    //MCOIMAPMessagesRequestKindFullHeaders    |
-    /** Subject of the message.*/
-    //MCOIMAPMessagesRequestKindHeaderSubject  |
-    /** Gmail Labels.*/
-    //MCOIMAPMessagesRequestKindGmailLabels    |
-	/** Gmail Message ID.*/
-    //MCOIMAPMessagesRequestKindGmailMessageID |
-    /** Gmail Thread ID.*/
-    //MCOIMAPMessagesRequestKindGmailThreadID  |
-    /** Extra Headers.*/
-    //MCOIMAPMessagesRequestKindExtraHeaders   |
-    /* Request size of message */
-    //MCOIMAPMessagesRequestKindSize
-    ;
+    MCOIMAPMessagesRequestKind requestKind = MCOIMAPMessagesRequestKindHeaders
+                                           | MCOIMAPMessagesRequestKindStructure
+                                           | MCOIMAPMessagesRequestKindInternalDate
+                                           | MCOIMAPMessagesRequestKindHeaderSubject
+                                           | MCOIMAPMessagesRequestKindFlags;
     
     MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
     
@@ -370,12 +350,13 @@
         //And, let's print out the messages...
         NSLog(@"The post man delivereth:%@", fetchedMessages);
         for (MCOIMAPMessage *message in fetchedMessages) {
-            NSLog(@"uid:%u", message.uid);
+            NSLog(@"uid:%u, subject:%@", message.uid, message.header.subject);
+            NSLog(@"mainPart:%@", message.mainPart);
             //MCOMessageHeader *header = message.header;
             //NSLog(@"header is:%@", header);
         }
     }];
-    
+    */
     
 //    MCOIMAPFetchMessagesOperation * op = [instance.imapSession syncMessagesByUIDWithFolder:@"INBOX"
 //                                                                  requestKind:MCOIMAPMessagesRequestKindUid
@@ -386,7 +367,9 @@
 //        NSLog(@"deleted messages: %@", vanishedMessages);
 //    }];
     
-    //[instance startImapService];
+    
+    SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSKMailCoreServiceProviderInstance];
+    [instance startImapService];
      
     /* test imap */
 }
