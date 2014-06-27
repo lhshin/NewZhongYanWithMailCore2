@@ -45,6 +45,10 @@
 
 #define POSTMASTER @"POSTMASTER"
 
+#define MESSAGE_FOLDER_EXTENSION @"msgfolder"
+
+#define MESSAGE_BODY_EXTENSION @"msgbody"
+
 #define ENCODE_DECODE_KEY @"msg"
 
 #endif
