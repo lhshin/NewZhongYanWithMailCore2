@@ -170,6 +170,7 @@
 
 -(void)getNewEmailFromServerCompleteBlock:(basicBlock)block
 {
+    
     if (isRefresh)  return;
     NSString* url = [NSString stringWithFormat:@"%@/users/mail/load/new",ZZZobt];
      SKFormDataRequest* Request = [SKFormDataRequest requestWithURL:[NSURL URLWithString:url]];
@@ -275,7 +276,7 @@
 //        
 //    }];
 
-    SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSKMailCoreServiceProviderInstance];
+    SKMailCoreServiceProvider *instance = [SKMailCoreServiceProvider getSharedInstance];
 /*
     MCOIMAPCapabilityOperation *imapCapabilityOP = [[instance imapSession] capabilityOperation];
     [imapCapabilityOP start:^(NSError *error, MCOIndexSet *capabilities) {
@@ -377,7 +378,7 @@
     */
     
     
-    [instance startImapService];
+    [instance startSync];
      
     /* test imap */
 }

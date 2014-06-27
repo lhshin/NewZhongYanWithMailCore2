@@ -11,10 +11,10 @@
 @interface SKMailCoreServiceProvider : NSObject
 @property (strong, nonatomic) MCOIMAPSession *imapSession;
 @property (strong, nonatomic) NSMutableDictionary *syncStates;
+//是否正在同步
 @property BOOL isSyncing;
 //用来记录当前正在同步的文件夹个数
 @property int syncFolderCount;
-+ (SKMailCoreServiceProvider *) getSKMailCoreServiceProviderInstance;
-+ (void) imapFolderTableCheck;
-- (void) startImapService;
++ (SKMailCoreServiceProvider *) getSharedInstance;
+- (void) startSync;
 @end

@@ -9,11 +9,15 @@
 #ifndef NewZhongYan_SKMailConstants_h
 #define NewZhongYan_SKMailConstants_h
 
+#define MAIL_FOLDER_NAME @"email"
+
 //存放imap文件夹的plist文件名
-#define IMAP_FOLDER_PLIST @"imapFolders.plist"
+#define FOLDER_PLIST @"folders.plist"
+
+#define SENDBOX @"SENDBOX"
 
 //默认的文件夹,最后一个为本地文件夹
-#define DEFAULT_FOLDERS_DICT @{@"INBOX": @"收件箱", @"&V4NXPpCuTvY-": @"垃圾邮件", @"&g0l6Pw-": @"草稿", @"&XfJT0ZABkK5O9g-": @"已发送邮件", @"&V4NXPnux-": @"垃圾箱", @"SENDBOX": @"发件箱"}
+#define DEFAULT_FOLDERS_DICT @{@"INBOX": @"收件箱", @"&V4NXPpCuTvY-": @"垃圾邮件", @"&g0l6Pw-": @"草稿", @"&XfJT0ZABkK5O9g-": @"已发送邮件", @"&V4NXPnux-": @"垃圾箱", SENDBOX: @"发件箱"}
 
 #define FOLDER_VERSION @"ver"
 
@@ -22,6 +26,8 @@
 #define FOLDER_PATH @"folderPath"
 
 #define FOLDER_DISPLAY_NAME @"folderDisplayName"
+
+#define CURRENT_MESSAGE_COUNT @"currentMessageCount"
 
 #define UID_NEXT @"uidNext"
 
@@ -35,8 +41,10 @@
 
 #define UNSEEN_COUNT @"unseenCount"
 
-#define DEFAULT_MESSSAGE_NUM 20
+#define DEFAULT_LOAD_MESSSAGE_NUM 20
 
 #define POSTMASTER @"POSTMASTER"
+
+#define ENCODE_DECODE_KEY @"msg"
 
 #endif

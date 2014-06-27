@@ -24,46 +24,71 @@
     self = [super init];
     if (self) {
 		
-        NSString *folderPathName = [SKMailCoreServiceProvider getFolderPathName];
+        NSString *folderPlist = [[SKMailCoreServiceProvider getMailFolderPathName] stringByAppendingPathComponent:FOLDER_PLIST];
         
-        if(![[NSFileManager defaultManager] fileExistsAtPath:folderPathName]) {
+        if(![[NSFileManager defaultManager] fileExistsAtPath:folderPlist]) {
             [SKMailCoreServiceProvider initialFolders];
         }
-        NSData *fileData = [[NSData alloc] initWithContentsOfFile:folderPathName];
+        NSData *fileData = [[NSData alloc] initWithContentsOfFile:folderPlist];
         self.syncStates = [NSPropertyListSerialization propertyListWithData:fileData options:NSPropertyListMutableContainersAndLeaves format:nil error:nil];
         
     }
     return self;
 }
 
-+ (NSString *) getFolderPathName {
-    NSString *documentPath = [FileUtils documentPath];
-    NSString *folderPathName = [documentPath stringByAppendingPathComponent:IMAP_FOLDER_PLIST];
-    return folderPathName;
+//获取邮件根目录
++ (NSString *) getMailFolderPathName {
+    NSString *mailFolderPathName = [[FileUtils documentPath] stringByAppendingPathComponent:MAIL_FOLDER_NAME];
+    BOOL isDir = NO;
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:mailFolderPathName isDirectory:&isDir];
+    if (!(isExist && isDir)) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:mailFolderPathName withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return mailFolderPathName;
 }
 
-+ (void) initialFolders {
-    NSString *folderPathName = [self getFolderPathName];
+//获取邮件文件夹路径
++ (NSString *) getMailBoxPathName:(NSString *)folderPath {
+    if (!folderPath) {
+        return nil;
+    }
+    NSString *mailBoxPathName = [[SKMailCoreServiceProvider getMailFolderPathName] stringByAppendingPathComponent:folderPath];
+    BOOL isDir = NO;
+    BOOL isExist = [[NSFileManager defaultManager] fileExistsAtPath:mailBoxPathName isDirectory:&isDir];
+    if (!(isExist && isDir)) {
+        return nil;
+    }
+    return mailBoxPathName;
+}
 
-    if (![[NSFileManager defaultManager] fileExistsAtPath:folderPathName]) {
+
++ (void) initialFolders {
+    NSString *mailFolderPathName = [SKMailCoreServiceProvider getMailFolderPathName];
+    NSString *folderPlist = [mailFolderPathName stringByAppendingPathComponent:FOLDER_PLIST];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:folderPlist]) {
         
-        NSMutableArray *folderStates = [[NSMutableArray alloc] initWithCapacity:6];
+        NSMutableArray *folderStates = [NSMutableArray array];
         
         NSArray *keys = [DEFAULT_FOLDERS_DICT allKeys];
         for(int i = 0; i < [keys count]; i++){
             NSString *key = [keys objectAtIndex:i];
-            [folderStates addObject:@{FOLDER_PATH: key, FOLDER_DISPLAY_NAME: [DEFAULT_FOLDERS_DICT objectForKey:key]}];
+            [folderStates addObject:@{FOLDER_PATH: key,
+                                      FOLDER_DISPLAY_NAME: [DEFAULT_FOLDERS_DICT objectForKey:key],
+                                      CURRENT_MESSAGE_COUNT: @0}];
+            //为每个邮件文件夹建立单独的文件夹
+            [[NSFileManager defaultManager] createDirectoryAtPath:[mailFolderPathName stringByAppendingString:key] withIntermediateDirectories:YES attributes:nil error:nil];
         }
         NSMutableDictionary *props = [[NSMutableDictionary alloc] initWithObjectsAndKeys:@"0", FOLDER_VERSION, folderStates, FOLDER_STATES_KEY, nil];
-        if(![props writeToFile:folderPathName atomically:YES]) {
-            NSLog(@"Unsuccessful in creating folders to file %@", folderPathName);
+        if(![props writeToFile:folderPlist atomically:YES]) {
+            NSLog(@"Unsuccessful in creating folders to file %@", folderPlist);
         }
     }
 }
 
 
 
-+ (SKMailCoreServiceProvider *) getSKMailCoreServiceProviderInstance
++ (SKMailCoreServiceProvider *) getSharedInstance
 {
     static SKMailCoreServiceProvider *sharedSKMailCoreServiceProviderInstance = nil;
     static dispatch_once_t predicate;
@@ -72,13 +97,6 @@
     });
     return sharedSKMailCoreServiceProviderInstance;
 }
-
-+ (void) imapFolderTableCheck
-{
-    
-}
-
-
 
 - (MCOIMAPSession *) imapSession
 {
@@ -93,15 +111,23 @@
     return _imapSession;
 }
 
-- (void) startImapService
+- (void) startSync
 {
     //1.同步文件夹
     //2.同步各文件夹内容
     if (self.isSyncing) {
         return;
     }
+    //检查账户是否有效
+    MCOIMAPOperation *checkAccountOp = [self.imapSession checkAccountOperation];
+    [checkAccountOp start:^(NSError *error) {
+        if (error) {
+            [self imapErrorHandler:error];
+            return;
+        }
+    }];
+    
     self.isSyncing = YES;
-    //[self.imapSession checkAccountOperation];
     MCOIMAPFetchFoldersOperation *folderOP = [self.imapSession fetchAllFoldersOperation];
     [folderOP start:^(NSError *error, NSArray *folders) {
         if (error) {
@@ -114,6 +140,10 @@
         NSArray *folderItems = [self.syncStates objectForKey:FOLDER_STATES_KEY];
         for (MCOIMAPFolder *folder in folders) {
             for (NSMutableDictionary *folderItem in folderItems) {
+                //跳过只保存在本地的SENDBOX
+                if ([[folderItem objectForKey:FOLDER_PATH] isEqualToString:SENDBOX]) {
+                    continue;
+                }
                 if ([[folderItem objectForKey:FOLDER_PATH] isEqualToString:folder.path]) {
                     MCOIMAPFolderStatusOperation *folderStatusOP = [self.imapSession folderStatusOperation:folder.path];
                     [folderStatusOP start:^(NSError *error, MCOIMAPFolderStatus *status) {
@@ -122,14 +152,21 @@
                             NSLog(@"Error fetching folder %@ status:%@", folder.path, error);
                             return;
                         }
-
+                        
+                        //如果当前邮箱文件夹邮件数目与本地一致，则无需更新,但需要增加已同步的文件夹计数
+                        if ([[folderItem objectForKey:CURRENT_MESSAGE_COUNT] intValue] == status.messageCount) {
+                            self.syncFolderCount++;
+                            return;
+                        }
+                        
                         [folderItem setObject:[NSNumber numberWithUnsignedInt:status.uidNext] forKey:UID_NEXT];
                         [folderItem setObject:[NSNumber numberWithUnsignedInt:status.uidValidity] forKey:UID_VALIDITY];
                         [folderItem setObject:[NSNumber numberWithUnsignedInt:status.recentCount] forKey:RECENT_COUNT];
                         [folderItem setObject:[NSNumber numberWithUnsignedInt:status.unseenCount] forKey:UNSEEN_COUNT];
                         [folderItem setObject:[NSNumber numberWithUnsignedInt:status.messageCount] forKey:MESSAGE_COUNT];
                         
-                        if(![self.syncStates writeToFile:[SKMailCoreServiceProvider getFolderPathName] atomically:YES]) {
+                        //保持邮箱文件夹信息到文件
+                        if(![self.syncStates writeToFile:[[SKMailCoreServiceProvider getMailFolderPathName] stringByAppendingPathComponent:FOLDER_PLIST] atomically:YES]) {
                             NSLog(@"Unsuccessful in save folders %@ to file:%@", folder.path, self.syncStates);
                         }
                         //文件夹同步完成，开始同步邮件列表
@@ -140,49 +177,73 @@
                 }
             }
         }
-        
-        
+    }];
+    __weak SKMailCoreServiceProvider *weakSelf = self;
+    [self.imapSession setOperationQueueRunningChangeBlock:^{
+        if ([weakSelf.imapSession isOperationQueueRunning]) {
+            
+        } else {
+            weakSelf.isSyncing = NO;
+        }
     }];
 }
 
 - (void) syncMails:(NSMutableDictionary *)folderState {
     //NSLog(@"syncMails----folderSates:%@", folderState);
-    __block MCOIMAPMessagesRequestKind requestKind =  MCOIMAPMessagesRequestKindHeaders;
     
-    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake(84, 2)];
-//    int numberOfMessages = DEFAULT_MESSSAGE_NUM;
-//    numberOfMessages -= 1;
-//    NSLog(@"numberOfMessages:%i, after minus:%i",numberOfMessages, [[folderState objectForKey:MESSAGE_COUNT] intValue] - numberOfMessages);
-//    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:MCORangeMake([[folderState objectForKey:MESSAGE_COUNT] intValue] - numberOfMessages, numberOfMessages)];
+    NSUInteger currentMessageCount = [[folderState objectForKey:CURRENT_MESSAGE_COUNT] unsignedIntegerValue];
+    NSUInteger messageCount = [[folderState objectForKey:MESSAGE_COUNT] unsignedIntegerValue];
+    BOOL totalNumberOfMessagesDidChange = currentMessageCount != messageCount;
+    NSUInteger numberOfMessagesToLoad = MIN(messageCount, DEFAULT_LOAD_MESSSAGE_NUM);
+    
+    if (numberOfMessagesToLoad == 0) {
+        return;
+    }
+    
+    MCORange fetchRange;
+    // If total number of messages did not change since last fetch,
+    // assume nothing was deleted since our last fetch and just
+    // fetch what we don't have
+    if (!totalNumberOfMessagesDidChange && currentMessageCount) {
+        
+        numberOfMessagesToLoad -= currentMessageCount;
+        fetchRange = MCORangeMake(messageCount - currentMessageCount - (numberOfMessagesToLoad - 1), (numberOfMessagesToLoad - 1));
+    } else {
+        // Else just fetch the last N messages
+        fetchRange = MCORangeMake(messageCount - (numberOfMessagesToLoad - 1), (numberOfMessagesToLoad - 1));
+    }
+    
+    MCOIndexSet *numbers = [MCOIndexSet indexSetWithRange:fetchRange];
 
-    
-    MCOIMAPFetchMessagesOperation *fetchOperation = [self.imapSession fetchMessagesByNumberOperationWithFolder:[folderState objectForKey:FOLDER_PATH]
+    __block MCOIMAPMessagesRequestKind requestKind =  MCOIMAPMessagesRequestKindHeaders;
+    MCOIMAPFetchMessagesOperation *fetchByNumOp = [self.imapSession fetchMessagesByNumberOperationWithFolder:[folderState objectForKey:FOLDER_PATH]
                                                                                                    requestKind:requestKind                                                                                              numbers:numbers];
 
-    
-    [fetchOperation start:^(NSError *error, NSArray *messages, MCOIndexSet *vanishedMessages) {
-        if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
-            NSLog(@"inbox:%@", numbers);
-        }
+    [fetchByNumOp start:^(NSError *error, NSArray *messages, MCOIndexSet *vanishedMessages) {
+//        if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
+//            NSLog(@"inbox:%@", numbers);
+//        }
         if (error) {
+            self.syncFolderCount++;
             [self imapErrorHandler:error];
             NSLog(@"Error fetching folder %@ for mail:%@", [folderState objectForKey:FOLDER_PATH], error);
             return;
         }
         MCOIndexSet *uids = [MCOIndexSet indexSet];
         for (MCOIMAPMessage * message in messages) {
-            if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
-                NSLog(@"uid:%u, subject:%@, sender:%@", [message uid], message.header.subject, message.header.sender.displayName);
-            }
+//            if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
+//                NSLog(@"uid:%u, subject:%@, sender:%@", [message uid], message.header.subject, message.header.sender.displayName);
+//            }
+            //过滤来自POSTMASTER得邮件
             if (![[message.header.sender.displayName uppercaseString] isEqualToString:POSTMASTER]) {
                 [uids addIndex:message.uid];
             }
             
         }
-        NSLog(@"fetchUids:%@", uids);
+//        NSLog(@"fetchUids:%@", uids);
         if ([uids count]) {
 
-            requestKind =  MCOIMAPMessagesRequestKindHeaders
+            requestKind = MCOIMAPMessagesRequestKindHeaders
                         | MCOIMAPMessagesRequestKindStructure
                         | MCOIMAPMessagesRequestKindInternalDate
                         | MCOIMAPMessagesRequestKindHeaderSubject
@@ -191,27 +252,32 @@
             MCOIMAPFetchMessagesOperation *fetchByuidOp = [self.imapSession fetchMessagesByUIDOperationWithFolder:[folderState objectForKey:FOLDER_PATH]
                                                                                                   requestKind:requestKind
                                                                                                          uids:uids];
-        [fetchByuidOp start:^(NSError *fetchUidError, NSArray *fetchUidMessages, MCOIndexSet *fetchUidVanishedMessages) {
-            if (fetchUidError) {
-                [self imapErrorHandler:fetchUidError];
-                NSLog(@"Error fetching folder %@ with uids %@ for mail:%@", [folderState objectForKey:FOLDER_PATH], uids, fetchUidError);
-                return;
-            }
-            for (MCOIMAPMessage * fetchUidMessage in fetchUidMessages) {
-                if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
-                    NSLog(@"fetchuid:%u, subject:%@", [fetchUidMessage uid], fetchUidMessage.header.subject);
-                }
-            }
             
-            self.syncFolderCount++;
-            if (self.syncFolderCount == [[self.syncStates objectForKey:FOLDER_STATES_KEY] count] - 1) {
-                NSNumber *ver = [NSNumber numberWithInt:[[self.syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
-                [self.syncStates setObject:ver forKey:FOLDER_VERSION];
-                self.syncFolderCount = 0;
-                self.isSyncing = NO;
-                NSLog(@"Sync END!");
-            }
-        }];
+            [fetchByuidOp start:^(NSError *fetchUidError, NSArray *fetchUidMessages, MCOIndexSet *fetchUidVanishedMessages) {
+                if (fetchUidError) {
+                    self.syncFolderCount++;
+                    [self imapErrorHandler:fetchUidError];
+                    NSLog(@"Error fetching folder %@ with uids %@ for mail:%@", [folderState objectForKey:FOLDER_PATH], uids, fetchUidError);
+                    return;
+                }
+//                for (MCOIMAPMessage * fetchUidMessage in fetchUidMessages) {
+//                    if ([[folderState objectForKey:FOLDER_PATH] isEqualToString:@"INBOX"]) {
+//                        NSLog(@"fetchuid:%u, subject:%@", [fetchUidMessage uid], fetchUidMessage.header.subject);
+//                    }
+//                }
+                //TODO:刷新展示邮件列表的view，需要判断当前同步的文件与展示的是否一致，考虑用代理实现。
+                //保存邮件到文件
+                [self saveMCOIMAPMessageToFolder:[folderState objectForKey:FOLDER_PATH] withMessage:fetchUidMessages];
+                
+                self.syncFolderCount++;
+                if (self.syncFolderCount == [[self.syncStates objectForKey:FOLDER_STATES_KEY] count] - 1) {
+                    NSNumber *ver = [NSNumber numberWithInt:[[self.syncStates objectForKey:FOLDER_VERSION] integerValue] + 1];
+                    [self.syncStates setObject:ver forKey:FOLDER_VERSION];
+                    self.syncFolderCount = 0;
+                    self.isSyncing = NO;
+                    NSLog(@"Sync END!");
+                }
+            }];
             
         } else {
             
@@ -226,30 +292,47 @@
         }
 
     }];
+}
 
+- (void) saveMCOIMAPMessageToFolder:(NSString *)folder withMessage:(NSArray *)messages {
+    NSString *mailBoxPath = [SKMailCoreServiceProvider getMailBoxPathName:folder];
+    if (!(mailBoxPath && [messages count])) {
+        return;
+    }
     
-//    //MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake([info messageCount] - numberOfMessages, numberOfMessages)];
-//    MCOIndexSet *uids = [MCOIndexSet indexSetWithRange:MCORangeMake(1, UINT64_MAX)];
-//    
-//    MCOIMAPFetchMessagesOperation *fetchOperation = [self.imapSession fetchMessagesByUIDOperationWithFolder:@"INBOX"
-//                                                                                            requestKind:requestKind
-//                                                                                                   uids:uids];
-//    
-//    [fetchOperation start:^(NSError * error, NSArray * fetchedMessages, MCOIndexSet * vanishedMessages) {
-//        //We've finished downloading the messages!
-//        //Let's check if there was an error:
-//        if(error) {
-//            [self imapErrorHandler:error];
-//            NSLog(@"Error downloading message headers:%@", error);
-//        }
-//
-//        //And, let's print out the messages...
-//        NSLog(@"The post man delivereth:%@", fetchedMessages);
-//        for (MCOIMAPMessage *message in fetchedMessages) {
-//            MCOMessageHeader *header = message.header;
-//            NSLog(@"header is:%@", header);
-//        }
-//    }];
+    for (MCOIMAPMessage *msg in messages) {
+        NSString *msgFolderPath = [mailBoxPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%u", msg.uid]];
+        [[NSFileManager defaultManager] createDirectoryAtPath:msgFolderPath withIntermediateDirectories:YES attributes:nil error:nil];
+        NSString *msgPath = [msgFolderPath stringByAppendingPathComponent:[msg.header.messageID stringByAppendingString:@".msg"]];
+        NSMutableData *msgData = [[NSMutableData alloc] init];
+        NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:msgData];
+        [archiver encodeObject:msg forKey:ENCODE_DECODE_KEY];
+        [archiver finishEncoding];
+        [msgData writeToFile:msgPath atomically:YES];
+    }
+}
+
+- (NSArray *) readMCOIMAPMessageFromFolder:(NSString *)folder {
+    
+    NSString *mailBoxPath = [SKMailCoreServiceProvider getMailBoxPathName:folder];
+    if (!mailBoxPath) {
+        return nil;
+    }
+    NSArray *msgFileList = [[[NSFileManager defaultManager] subpathsOfDirectoryAtPath:mailBoxPath error:nil] pathsMatchingExtensions:[NSArray arrayWithObject:@"msg"]];
+    if (![msgFileList count]) {
+        return nil;
+    }
+    
+    NSMutableArray *mailMsgs = [NSMutableArray array];
+    for (NSString *msgFile in msgFileList) {
+        NSString *msgFilePath = [mailBoxPath stringByAppendingPathComponent:msgFile];
+        NSData *msgData = [[NSData alloc] initWithContentsOfFile:msgFilePath];
+        NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:msgData];
+        MCOIMAPMessage *msg = [unarchiver decodeObjectForKey:ENCODE_DECODE_KEY];
+        [unarchiver finishDecoding];
+        [mailMsgs addObject:msg];
+    }
+    return mailMsgs;
 }
 
 - (void) imapErrorHandler:(NSError *) error
